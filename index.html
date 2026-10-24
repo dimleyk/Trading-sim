@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>סימולציית מסחר – $1,000 (ללא כסף אמיתי)</title>
+<style>
+:root{--bg:#0f1420;--card:#171e2e;--mut:#8a96ad;--txt:#e7ecf5;--g:#22c55e;--r:#ef4444;--acc:#60a5fa;--b:#263049}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:14px}
+.banner{background:#7c2d12;color:#fff;border:2px solid #f97316;border-radius:12px;padding:10px 14px;font-weight:700;text-align:center;font-size:17px}
+.banner small{display:block;font-weight:400;font-size:13px;opacity:.9}
+h1{font-size:20px;margin:16px 0 4px}
+h2{font-size:17px;margin:0 0 10px}
+.sub{color:var(--mut);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.card{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.k{color:var(--mut);font-size:12px}
+.v{font-size:22px;font-weight:700;direction:ltr;unicode-bidi:isolate;display:inline-block}
+.pos{color:var(--g)}.neg{color:var(--r)}
+.ltr,.num,td,th{direction:ltr;unicode-bidi:isolate}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--b);text-align:right;white-space:nowrap}
+th{color:var(--mut);font-weight:600}
+.pill{display:inline-block;padding:2px 8px;border-radius:99px;background:#1e3a8a;color:#bfdbfe;font-size:12px}
+.pill.warn{background:#78350f;color:#fde68a}
+.log{direction:ltr;text-align:left;font-size:14px}
+.log h2,.log h3,.log h4{margin:14px 0 6px}
+.log table td,.log table th{white-space:normal;text-align:left}
+.log code{background:#0b1020;padding:1px 4px;border-radius:4px}
+details summary{cursor:pointer;color:var(--acc);font-weight:600}
+ul.rules{margin:0;padding-inline-start:20px}
+ul.rules li{margin:3px 0}
+svg text{fill:var(--mut);font-size:11px}
+.legend span{margin-inline-end:14px;font-size:13px}
+.err{color:#fca5a5;font-size:13px}
+footer{color:var(--mut);font-size:12px;text-align:center;margin:20px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="banner">⚠️ סימולציית מסחר על הנייר – אין כסף אמיתי<br><span class="ltr">Paper-trading simulation, no real money</span>
+    <small>שום עסקה לא מבוצעת בפועל. מחירים אמיתיים מ‑Yahoo Finance, ביצועים מדומים.</small></div>
+
+  <h1>מעקב בזמן אמת: <span class="ltr">$1,000</span>, שבוע אחד</h1>
+  <div class="card" style="text-align:center;font-size:18px;margin-top:12px">עודכן ב‑<b class="ltr" id="upd2">…</b> <span class="k">(שעון ישראל)</span> · <span class="ltr">Updated at</span></div>
+  <div class="sub">עודכן לאחרונה (שעון ישראל): <b class="ltr" id="upd">…</b> · מחירים נמשכו: <span class="ltr" id="pxat">…</span> · רענון אוטומטי כל 60 שניות · הנתונים מתעדכנים בכל ריצה של הסימולציה · <span id="status"></span></div>
+
+  <div class="grid">
+    <div class="card"><div class="k">שווי כולל</div><div class="v" id="total">…</div><div class="k ltr" id="totpct"></div></div>
+    <div class="card"><div class="k">רווח/הפסד מול $1,000</div><div class="v" id="pnl">…</div></div>
+    <div class="card"><div class="k">מזומן</div><div class="v" id="cash">…</div></div>
+    <div class="card"><div class="k">מדד ייחוס: SPY קנה‑והחזק</div><div class="v" id="bench">…</div><div class="k" id="benchsub"></div></div>
+  </div>
+
+  <div class="card" id="pendingCard" style="display:none">
+    <h2>פקודות ממתינות <span class="pill warn">PENDING_ENTRY</span></h2>
+    <div class="sub" id="pendingNote"></div>
+    <div class="tw"><table><thead><tr><th>Ticker</th><th>Side</th><th>$</th><th>Role</th><th>Fri close</th><th>Live</th><th>Δ%</th><th>~Shares</th></tr></thead><tbody id="pending"></tbody></table></div>
+  </div>
+
+  <div class="card">
+    <h2>פוזיציות פתוחות</h2>
+    <div class="tw"><table><thead><tr><th>Ticker</th><th>Shares</th><th>Entry</th><th>Live</th><th>Value</th><th>P/L $</th><th>P/L %</th><th>Stop</th><th>Take‑profit</th></tr></thead><tbody id="positions"></tbody></table></div>
+  </div>
+
+  <div class="card">
+    <h2>גרף שווי התיק</h2>
+    <div class="legend"><span style="color:var(--acc)">■ תיק</span><span style="color:#f59e0b">■ SPY ($1,000)</span><span style="color:var(--mut)">--- $1,000</span></div>
+    <div id="chart"></div>
+  </div>
+
+  <div class="card">
+    <h2>עסקאות</h2>
+    <div class="tw"><table><thead><tr><th>Time (ET)</th><th>Ticker</th><th>Side</th><th>Shares</th><th>Fill</th><th>$</th><th>Reason</th><th>Realized P/L</th></tr></thead><tbody id="trades"></tbody></table></div>
+  </div>
+
+  <div class="card">
+    <h2>הכללים</h2>
+    <ul class="rules">
+      <li><b>ברוקר מדומה:</b> ללא עמלות, חלקי מניות, פקודות שוק בלבד, החלקה <span class="ltr">0.1%</span>. בלי מינוף, מרג'ין, אופציות או שורט.</li>
+      <li><b>הקצאה:</b> <span class="ltr">VOO $360 · QQQM $260 · CRWD $120 · PLTR $105 · COST $105 · Cash $50</span></li>
+      <li><b>כניסה:</b> ביום שני <span class="ltr">26.10</span> בסביבות <span class="ltr">10:00 ET</span> (<span class="ltr">17:00</span> שעון ישראל). מניה בודדת שקפצה מעל <span class="ltr">+5%</span> מסגירת שישי – קונים רק חצי. מניה שכבר ירדה יותר מרמת הסטופ שלה – מדלגים.</li>
+      <li><b>סטופ‑לוס:</b> קרנות <span class="ltr">-4%</span>, מניות בודדות <span class="ltr">-7%</span> ממחיר הכניסה.</li>
+      <li><b>מימוש רווח (מניות בודדות):</b> ב‑<span class="ltr">+10%</span> מוכרים חצי, הסטופ על היתרה עולה למחיר הכניסה, ואז סטופ נגרר <span class="ltr">-5%</span> מהשיא.</li>
+      <li><b>בלם חירום:</b> אם התיק יורד מתחת ל‑<span class="ltr">$920</span> – מוכרים את כל המניות הבודדות ונשארים רק עם הקרנות.</li>
+      <li><b>משמעת:</b> לא מוסיפים לפוזיציה, לא ממצעים כלפי מטה, מזומן ממכירה נשאר מזומן עד סוף השבוע.</li>
+      <li><b>בדיקות:</b> פעמיים ביום, בסביבות <span class="ltr">10:00</span> ו‑<span class="ltr">16:20 ET</span>. ביום שישי <span class="ltr">30.10</span> מוכרים הכול ומשווים ל‑SPY.</li>
+    </ul>
+    <details style="margin-top:10px"><summary>הכללים המלאים והמחקר (מתוך log.md)</summary><div class="log" id="research"></div></details>
+  </div>
+
+  <div class="card">
+    <h2>יומן החלטות (החדש ביותר למעלה)</h2>
+    <div class="log" id="log">…</div>
+  </div>
+
+  <div class="err" id="err"></div>
+  <footer>סימולציה בלבד · אין כאן ייעוץ השקעות · <span class="ltr">Paper-trading simulation, no real money</span></footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const usd=x=>x==null?'—':'$'+Number(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const px=x=>x==null?'—':Number(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=x=>x==null?'—':(x>0?'+':'')+Number(x).toFixed(2)+'%';
+const cls=x=>x==null?'':(x>0?'pos':(x<0?'neg':''));
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function pick(o,keys){for(const k of keys){if(o&&o[k]!=null)return o[k]}return null}
+
+function chart(hist,s){
+  const pts=hist.map(h=>({t:pick(h,['time_il','time_et','time','ts','date'])||'',v:Number(pick(h,['total_value','equity','total','value'])),b:pick(h,['benchmark_value','spy_value','bench_value','spy'])})).filter(p=>!isNaN(p.v));
+  pts.push({t:'עכשיו',v:s.total_value,b:s.benchmark.value});
+  if(pts.length<2){pts.unshift({t:'התחלה',v:s.starting_cash,b:s.starting_cash})}
+  const W=900,H=240,L=56,R=10,T=10,B=28;
+  const vals=pts.flatMap(p=>[p.v,p.b==null?null:Number(p.b)]).filter(v=>v!=null&&!isNaN(v)).concat([s.starting_cash]);
+  let mn=Math.min(...vals),mx=Math.max(...vals);const pad=Math.max((mx-mn)*0.15,5);mn-=pad;mx+=pad;
+  const X=i=>L+(W-L-R)*(pts.length==1?0.5:i/(pts.length-1)), Y=v=>T+(H-T-B)*(1-(v-mn)/(mx-mn));
+  const line=(acc,color)=>{const q=pts.map((p,i)=>[i,acc(p)]).filter(([i,v])=>v!=null&&!isNaN(v));if(q.length<1)return'';
+    return `<polyline fill="none" stroke="${color}" stroke-width="2.5" points="${q.map(([i,v])=>X(i)+','+Y(v)).join(' ')}"/>`+q.map(([i,v])=>`<circle cx="${X(i)}" cy="${Y(v)}" r="3" fill="${color}"/>`).join('')};
+  let g='';for(let k=0;k<=4;k++){const v=mn+(mx-mn)*k/4;g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#263049"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v.toFixed(0)}</text>`}
+  const step=Math.ceil(pts.length/6);let xl='';pts.forEach((p,i)=>{if(i%step==0||i==pts.length-1)xl+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle">${esc(String(p.t).replace(/ ?ET$/,'').slice(5,16)||p.t)}</text>`});
+  $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="direction:ltr">${g}<line x1="${L}" x2="${W-R}" y1="${Y(s.starting_cash)}" y2="${Y(s.starting_cash)}" stroke="#8a96ad" stroke-dasharray="5 4"/>${line(p=>p.b==null?null:Number(p.b),'#f59e0b')}${line(p=>p.v,'#60a5fa')}${xl}</svg>`;
+}
+
+async function load(){
+  try{
+    const s=await fetch('data.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()});const l=s.log||{runs_html:'',research_html:''};
+    if(s.error)throw new Error(s.error);
+    const upd=[s.portfolio_file_mtime_il,s.log_file_mtime_il].filter(Boolean).sort().pop();
+    $('upd').textContent=(s.generated_at_il||'—')+' (Asia/Jerusalem)';$('upd2').textContent=(s.generated_at_il||'—');
+    $('pxat').textContent=(s.prices.fetched_at_il||'—')+' IL'+(s.prices.quotes.SPY?' · market time '+s.prices.quotes.SPY.market_time_et:'');
+    $('status').innerHTML='סטטוס: <span class="pill">'+esc(s.status)+'</span>';
+    $('total').textContent=usd(s.total_value);$('total').className='v '+cls(s.total_pnl_usd);
+    $('totpct').textContent=pct(s.total_pnl_pct)+' vs $1,000';
+    $('pnl').textContent=(s.total_pnl_usd>0?'+':'')+usd(s.total_pnl_usd);$('pnl').className='v '+cls(s.total_pnl_usd);
+    $('cash').textContent=usd(s.cash);
+    const b=s.benchmark;
+    if(b.started){$('bench').textContent=usd(b.value);$('bench').className='v '+cls(b.pct);$('benchsub').innerHTML='<span class="ltr">'+pct(b.pct)+' · SPY '+px(b.live_price)+' (entry '+px(b.entry_price)+')</span>'}
+    else{$('bench').textContent=usd(s.starting_cash);$('bench').className='v';$('benchsub').innerHTML='יתחיל בכניסה ביום שני · <span class="ltr">SPY '+px(b.live_price)+' ('+pct(b.chg_vs_ref_pct)+' vs Fri close)</span>'}
+    // pending
+    if(s.pending_orders.length){$('pendingCard').style.display='';
+      $('pendingNote').innerHTML='ייכנסו בריצה של יום שני <span class="ltr">26.10 ~10:00 ET</span> (<span class="ltr">~17:00</span> שעון ישראל). עד אז כל ה‑<span class="ltr">$1,000</span> במזומן.';
+      $('pending').innerHTML=s.pending_orders.map(o=>`<tr><td><b>${esc(o.ticker)}</b></td><td>${esc(o.side)}</td><td>${usd(o.usd)}</td><td>${esc(o.role)}</td><td>${px(o.ref_close_2026_10_23)}</td><td>${px(o.live_price)}</td><td class="${cls(o.chg_vs_ref_pct)}">${pct(o.chg_vs_ref_pct)}</td><td>${o.indicative_shares??'—'}</td></tr>`).join('');
+    } else $('pendingCard').style.display='none';
+    $('positions').innerHTML=s.positions.length?s.positions.map(p=>`<tr><td><b>${esc(p.ticker)}</b> <span class="k">${esc(p.role||'')}</span></td><td>${Number(p.shares).toFixed(6)}</td><td>${px(p.entry_price)}</td><td>${px(p.live_price)}</td><td>${usd(p.value)}</td><td class="${cls(p.pnl_usd)}">${usd(p.pnl_usd)}</td><td class="${cls(p.pnl_pct)}">${pct(p.pnl_pct)}</td><td>${px(p.stop_price)}${p.trailing_active?' <span class="pill">trail</span>':''}</td><td>${p.take_profit_price==null?'—':px(p.take_profit_price)}${p.tp_hit?' <span class="pill">hit</span>':''}</td></tr>`).join(''):'<tr><td colspan="9" style="text-align:center;color:var(--mut)">אין עדיין פוזיציות פתוחות</td></tr>';
+    $('trades').innerHTML=s.trades.length?s.trades.slice().reverse().map(t=>`<tr><td>${esc(t.time_et)}</td><td><b>${esc(t.ticker)}</b></td><td class="${t.side=='BUY'?'pos':'neg'}">${esc(t.side)}</td><td>${t.shares!=null?Number(t.shares).toFixed(6):'—'}</td><td>${px(t.fill_price)}</td><td>${usd(t.usd)}</td><td>${esc(t.reason)}</td><td class="${cls(t.realized_pnl_usd)}">${t.realized_pnl_usd==null?'—':usd(t.realized_pnl_usd)}</td></tr>`).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--mut)">אין עדיין עסקאות</td></tr>';
+    chart(s.equity_history||[],s);
+    $('log').innerHTML=l.runs_html;$('research').innerHTML=l.research_html;
+    $('err').textContent=s.prices.errors&&s.prices.errors.length?'שגיאות מחיר: '+s.prices.errors.join('; '):'';
+  }catch(e){$('err').textContent='שגיאה בטעינה: '+e.message}
+}
+load();setInterval(load,60000);
+</script>
+</body>
+</html>
