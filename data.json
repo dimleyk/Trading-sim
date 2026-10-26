@@ -2,7 +2,7 @@
  "simulation_only": true,
  "label": "Paper-trading simulation, no real money",
  "sim_name": "Dmitry 1-week paper trade",
- "status": "PENDING_ENTRY",
+ "status": "ACTIVE",
  "period": {
   "start": "2026-10-26",
   "end": "2026-10-30",
@@ -10,125 +10,219 @@
   "final_run": "2026-10-30 ~16:20 ET"
  },
  "starting_cash": 1000.0,
- "cash": 1000.0,
- "invested_value": 0.0,
- "total_value": 1000.0,
- "total_pnl_usd": 0.0,
- "total_pnl_pct": 0.0,
+ "cash": 50.0,
+ "invested_value": 949.23,
+ "total_value": 999.23,
+ "total_pnl_usd": -0.77,
+ "total_pnl_pct": -0.08,
  "realized_pnl_usd": 0.0,
- "positions": [],
- "pending_orders": [
+ "positions": [
   {
    "ticker": "VOO",
-   "side": "BUY",
-   "usd": 360,
    "role": "core",
-   "ref_close_2026_10_23": 698.58,
-   "status": "pending",
-   "live_price": 698.58,
-   "chg_vs_ref_pct": 0.0,
-   "indicative_shares": 0.514816
+   "shares": 0.511678,
+   "entry_price": 703.5679,
+   "live_price": 702.785,
+   "value": 359.6,
+   "cost": 360.0,
+   "pnl_usd": -0.4,
+   "pnl_pct": -0.11,
+   "stop_price": 675.4252,
+   "take_profit_price": null,
+   "tp_hit": false,
+   "trailing_active": false,
+   "high_water": 702.865,
+   "price_live": true
   },
   {
    "ticker": "QQQM",
-   "side": "BUY",
-   "usd": 260,
    "role": "core",
-   "ref_close_2026_10_23": 290.06,
-   "status": "pending",
-   "live_price": 290.06,
-   "chg_vs_ref_pct": 0.0,
-   "indicative_shares": 0.895471
+   "shares": 0.890055,
+   "entry_price": 292.1168,
+   "live_price": 291.82,
+   "value": 259.74,
+   "cost": 260.0,
+   "pnl_usd": -0.26,
+   "pnl_pct": -0.1,
+   "stop_price": 280.4321,
+   "take_profit_price": null,
+   "tp_hit": false,
+   "trailing_active": false,
+   "high_water": 291.825,
+   "price_live": true
   },
   {
    "ticker": "CRWD",
-   "side": "BUY",
-   "usd": 120,
    "role": "satellite",
-   "ref_close_2026_10_23": 257.57,
-   "status": "pending",
-   "live_price": 257.57,
-   "chg_vs_ref_pct": 0.0,
-   "indicative_shares": 0.465427
+   "shares": 0.464675,
+   "entry_price": 258.245,
+   "live_price": 258.112,
+   "value": 119.94,
+   "cost": 120.0,
+   "pnl_usd": -0.06,
+   "pnl_pct": -0.05,
+   "stop_price": 240.1679,
+   "take_profit_price": 284.0695,
+   "tp_hit": false,
+   "trailing_active": false,
+   "high_water": 257.987,
+   "price_live": true
   },
   {
    "ticker": "PLTR",
-   "side": "BUY",
-   "usd": 105,
    "role": "satellite",
-   "ref_close_2026_10_23": 196.75,
-   "status": "pending",
-   "live_price": 196.75,
-   "chg_vs_ref_pct": 0.0,
-   "indicative_shares": 0.533139
+   "shares": 0.534606,
+   "entry_price": 196.4062,
+   "live_price": 196.405,
+   "value": 105.0,
+   "cost": 105.0,
+   "pnl_usd": -0.0,
+   "pnl_pct": -0.0,
+   "stop_price": 182.6578,
+   "take_profit_price": 216.0468,
+   "tp_hit": false,
+   "trailing_active": false,
+   "high_water": 196.21,
+   "price_live": true
   },
   {
    "ticker": "COST",
-   "side": "BUY",
-   "usd": 105,
    "role": "satellite",
-   "ref_close_2026_10_23": 1003.32,
-   "status": "pending",
-   "live_price": 1003.32,
-   "chg_vs_ref_pct": 0.0,
-   "indicative_shares": 0.104548
+   "shares": 0.103404,
+   "entry_price": 1015.4394,
+   "live_price": 1015.04,
+   "value": 104.96,
+   "cost": 105.0,
+   "pnl_usd": -0.04,
+   "pnl_pct": -0.04,
+   "stop_price": 944.3586,
+   "take_profit_price": 1116.9833,
+   "tp_hit": false,
+   "trailing_active": false,
+   "high_water": 1014.425,
+   "price_live": true
   }
  ],
- "trades": [],
- "equity_history": [],
+ "pending_orders": [],
+ "trades": [
+  {
+   "time_et": "2026-10-26 10:15 ET",
+   "ticker": "VOO",
+   "side": "BUY",
+   "shares": 0.511678,
+   "live_price": 702.865,
+   "fill_price": 703.5679,
+   "usd": 360.0,
+   "reason": "entry",
+   "realized_pnl_usd": null
+  },
+  {
+   "time_et": "2026-10-26 10:15 ET",
+   "ticker": "QQQM",
+   "side": "BUY",
+   "shares": 0.890055,
+   "live_price": 291.825,
+   "fill_price": 292.1168,
+   "usd": 260.0,
+   "reason": "entry",
+   "realized_pnl_usd": null
+  },
+  {
+   "time_et": "2026-10-26 10:15 ET",
+   "ticker": "CRWD",
+   "side": "BUY",
+   "shares": 0.464675,
+   "live_price": 257.987,
+   "fill_price": 258.245,
+   "usd": 120.0,
+   "reason": "entry",
+   "realized_pnl_usd": null
+  },
+  {
+   "time_et": "2026-10-26 10:15 ET",
+   "ticker": "PLTR",
+   "side": "BUY",
+   "shares": 0.534606,
+   "live_price": 196.21,
+   "fill_price": 196.4062,
+   "usd": 105.0,
+   "reason": "entry",
+   "realized_pnl_usd": null
+  },
+  {
+   "time_et": "2026-10-26 10:15 ET",
+   "ticker": "COST",
+   "side": "BUY",
+   "shares": 0.103404,
+   "live_price": 1014.425,
+   "fill_price": 1015.4394,
+   "usd": 105.0,
+   "reason": "entry",
+   "realized_pnl_usd": null
+  }
+ ],
+ "equity_history": [
+  {
+   "time_et": "2026-10-26 10:15 ET",
+   "run": "morning",
+   "equity": 999.06,
+   "cash": 50.0,
+   "positions_value": 949.06,
+   "spy_benchmark_value": 999.0
+  }
+ ],
  "benchmark": {
   "ticker": "SPY",
-  "live_price": 759.97,
-  "entry_price": null,
-  "shares": null,
+  "live_price": 764.62,
+  "entry_price": 765.4146,
+  "shares": 1.306481,
   "friday_ref_close": 759.97,
-  "value": null,
-  "pct": null,
-  "started": false,
-  "chg_vs_ref_pct": 0.0
+  "value": 998.96,
+  "pct": -0.1,
+  "started": true
  },
  "prices": {
-  "fetched_at_et": "2026-10-24 10:52:07 EDT",
-  "fetched_at_il": "2026-10-24 17:52:07",
+  "fetched_at_et": "2026-10-26 10:15:29 EDT",
+  "fetched_at_il": "2026-10-26 16:15:29",
   "cached": false,
   "errors": [],
   "quotes": {
    "COST": {
-    "price": 1003.32,
-    "market_time_et": "2026-10-23 16:00 EDT",
-    "prev_close": 1018.21
+    "price": 1015.04,
+    "market_time_et": "2026-10-26 10:15 EDT",
+    "prev_close": 1003.32
    },
    "CRWD": {
-    "price": 257.57,
-    "market_time_et": "2026-10-23 16:00 EDT",
-    "prev_close": 237.94
+    "price": 258.112,
+    "market_time_et": "2026-10-26 10:15 EDT",
+    "prev_close": 257.57
    },
    "PLTR": {
-    "price": 196.75,
-    "market_time_et": "2026-10-23 16:00 EDT",
-    "prev_close": 196.19
+    "price": 196.405,
+    "market_time_et": "2026-10-26 10:15 EDT",
+    "prev_close": 196.75
    },
    "QQQM": {
-    "price": 290.06,
-    "market_time_et": "2026-10-23 16:00 EDT",
-    "prev_close": 290.13
+    "price": 291.82,
+    "market_time_et": "2026-10-26 10:15 EDT",
+    "prev_close": 290.06
    },
    "SPY": {
-    "price": 759.97,
-    "market_time_et": "2026-10-23 16:00 EDT",
-    "prev_close": 763.96
+    "price": 764.62,
+    "market_time_et": "2026-10-26 10:15 EDT",
+    "prev_close": 759.97
    },
    "VOO": {
-    "price": 698.58,
-    "market_time_et": "2026-10-23 16:00 EDT",
-    "prev_close": 702.3
+    "price": 702.785,
+    "market_time_et": "2026-10-26 10:15 EDT",
+    "prev_close": 698.58
    }
   }
  },
- "portfolio_last_updated_et": "2026-10-24 10:15 ET",
- "portfolio_file_mtime_il": "2026-10-24 17:15:37",
- "log_file_mtime_il": "2026-10-24 17:16:15",
- "server_time_il": "2026-10-24 17:52:07",
+ "portfolio_last_updated_et": "2026-10-26 10:15 ET",
+ "portfolio_file_mtime_il": "2026-10-26 16:15:25",
+ "log_file_mtime_il": "2026-10-26 16:15:25",
+ "server_time_il": "2026-10-26 16:15:29",
  "rules": {
   "broker": {
    "name": "Simulated commission-free broker",
@@ -182,9 +276,9 @@
   }
  },
  "log": {
-  "runs_html": "<h3>3. Run log</h3>\n<p>(Each run appends: time ET, prices, fills/exits with reasons, equity, P&amp;L vs $1000, SPY benchmark.)</p>\n<h4>2026-10-24 Sat ~10:15 ET: setup</h4>\n<ul>\n<li>Market closed. Created portfolio.json (status PENDING_ENTRY), price.py, and the Friday snapshot. Five pending BUY orders total $950, with $50 as the cash buffer. Entries execute at the Mon Oct 26 ~10:00 ET run.</li>\n</ul>",
+  "runs_html": "<h3>3. Run log</h3>\n<p>(Each run appends: time ET, prices, fills/exits with reasons, equity, P&amp;L vs $1000, SPY benchmark.)</p>\n<h4>2026-10-26 Mon 10:15 ET: entry run (morning)</h4>\n<ul>\n<li>Prices from price.py (Yahoo), fetched 10:15:11 ET; no fetch errors.</li>\n<li>Entry filters: no satellite gapped up more than +5% and nothing gapped down past its stop %, so all five orders were filled in full (rule: entry plan / gap filters).</li>\n</ul>\n<div class=\"tw\"><table><thead><tr><th>Ticker</th><th>Role</th><th>Live</th><th>Gap vs Fri</th><th>Fill (+0.1%)</th><th>Shares</th><th>Cost</th><th>Stop</th><th>Take-profit</th></tr></thead><tbody>\n<tr><td>VOO</td><td>core</td><td>702.865</td><td>+0.61%</td><td>703.5679</td><td>0.511678</td><td>$360.00</td><td>675.4252</td><td>-</td></tr>\n<tr><td>QQQM</td><td>core</td><td>291.825</td><td>+0.61%</td><td>292.1168</td><td>0.890055</td><td>$260.00</td><td>280.4321</td><td>-</td></tr>\n<tr><td>CRWD</td><td>satellite</td><td>257.987</td><td>+0.16%</td><td>258.245</td><td>0.464675</td><td>$120.00</td><td>240.1679</td><td>284.0695</td></tr>\n<tr><td>PLTR</td><td>satellite</td><td>196.21</td><td>-0.27%</td><td>196.4062</td><td>0.534606</td><td>$105.00</td><td>182.6578</td><td>216.0468</td></tr>\n<tr><td>COST</td><td>satellite</td><td>1014.425</td><td>+1.11%</td><td>1015.4394</td><td>0.103404</td><td>$105.00</td><td>944.3586</td><td>1116.9833</td></tr>\n</tbody></table></div>\n<ul>\n<li>Stops set at -4% (core) and -7% (satellites) from each fill; satellite take-profit at +10% (exit rules). No stop or take-profit triggered at this run.</li>\n<li>Cash left: $50.00. Equity marked at live prices: $999.06 (-0.09% vs $1,000; the gap is the entry slippage).</li>\n<li>SPY benchmark: $1,000 bought at 765.4146 (764.65 +0.1%), 1.306481 shares, value $999.00.</li>\n</ul>\n<h4>2026-10-24 Sat ~10:15 ET: setup</h4>\n<ul>\n<li>Market closed. Created portfolio.json (status PENDING_ENTRY), price.py, and the Friday snapshot. Five pending BUY orders total $950, with $50 as the cash buffer. Entries execute at the Mon Oct 26 ~10:00 ET run.</li>\n</ul>",
   "research_html": "<h2>Dmitry: 1-week paper-trading simulation ($1,000)</h2>\n<p><strong>SIMULATION ONLY.</strong> No real broker, no real money, nobody gets contacted. Week: Mon Oct 26 to Fri Oct 30, 2026.</p>\n<p>State lives in <code>portfolio.json</code>. Prices come from <code>price.py</code> (Yahoo Finance v8 chart API). Runs happen at about 10:00 ET and about 16:20 ET each trading day.</p>\n<p>Each run appends a dated entry at the bottom of this file.</p>\n<h3>1. Rule set (fixed before the week starts; do not change mid-week)</h3>\n<h4>Broker setup (simulated)</h4>\n<ul>\n<li>Commission-free, fractional shares (6 decimals), market orders only.</li>\n<li>Fill = live price from <code>price.py</code> at run time, plus 0.1% slippage (buy x1.001, sell x0.999).</li>\n<li>No leverage, no margin, no options, no shorting.</li>\n</ul>\n<h4>Allocation: core and satellite</h4>\n<div class=\"tw\"><table><thead><tr><th>Ticker</th><th>$</th><th>%</th><th>Role</th></tr></thead><tbody>\n<tr><td>VOO</td><td>360</td><td>36%</td><td>core</td></tr>\n<tr><td>QQQM</td><td>260</td><td>26%</td><td>core</td></tr>\n<tr><td>CRWD</td><td>120</td><td>12%</td><td>satellite</td></tr>\n<tr><td>PLTR</td><td>105</td><td>10.5%</td><td>satellite</td></tr>\n<tr><td>COST</td><td>105</td><td>10.5%</td><td>satellite</td></tr>\n<tr><td>Cash</td><td>50</td><td>5%</td><td>buffer</td></tr>\n</tbody></table></div>\n<p>Core is 62%, satellites 33%, cash 5%.</p>\n<h4>Entry plan</h4>\n<ul>\n<li>All five orders go in as dollar-amount market orders at the <strong>Monday Oct 26 ~10:00 ET run</strong>. That is 30 minutes after the open, so the opening-auction noise has passed.</li>\n<li><strong>Gap-up filter (satellites):</strong> if the price at that run is more than 5% above Friday's close, buy only half. The other half stays cash for the week (no chasing).</li>\n<li><strong>Gap-down filter (all):</strong> if the price is already below Friday's close by more than that ticker's stop % (core -4%, satellite -7%), skip the order and keep the cash.</li>\n<li>If the price fetch fails, retry. If it still fails, leave the order pending until the next run. After Tuesday 10:00, cancel it to cash.</li>\n</ul>\n<h4>Exits</h4>\n<ul>\n<li><strong>Core (VOO, QQQM):</strong> stop-loss at <strong>-4%</strong> from the entry fill. No take-profit; hold all week.</li>\n<li><strong>Satellites:</strong> stop-loss at <strong>-7%</strong> from the entry fill.</li>\n<ul>\n<li>Take-profit at <strong>+10%</strong>: sell 50% of the shares, then move the stop on the rest to breakeven (the entry fill).</li>\n<li>Then a <strong>trailing stop</strong> of -5% from the high-water mark, which is the highest price seen at any run since entry. The effective stop is whichever is higher: breakeven or the trailing level.</li>\n</ul>\n<li>Stops are checked <strong>only at run times</strong> (twice a day), not intraday. Gaps can fill worse than the stop level, and the log records the actual fill.</li>\n</ul>\n<h4>Risk rules</h4>\n<ul>\n<li>Max size at entry: 40% for a core ETF, 12.5% for a single stock.</li>\n<li><strong>No averaging down</strong> and no adding to any position after entry.</li>\n<li><strong>Cash freed by a stop or take-profit stays in cash</strong> for the rest of the week: no re-entry, no new tickers, no revenge trades.</li>\n<li><strong>Portfolio circuit breaker:</strong> if total equity falls below $920 (-8%) at any run, sell all satellites and keep only core and cash until Friday.</li>\n<li><strong>End of week:</strong> at the Friday Oct 30 ~16:20 ET run, simulate selling everything at the close (with 0.1% slippage). Report final cash against $1,000 and against the SPY benchmark.</li>\n</ul>\n<h4>Benchmark</h4>\n<ul>\n<li>A hypothetical $1,000 buy-and-hold of SPY, filled at the Monday ~10:00 ET run price with the same slippage. It is recorded in <code>portfolio.json -&gt; benchmark</code>.</li>\n</ul>\n<h4>Earnings and event risk (Oct 26-30)</h4>\n<ul>\n<li><strong>None of the picks report earnings during the sim week.</strong> PLTR reports Nov 2 after close, CRWD around Dec 1 (tentative), COST in December.</li>\n<li><strong>Avoided on purpose because they report inside the window:</strong> MSFT (Oct 28 AMC), GOOGL (Oct 28 AMC), NOW (Oct 28 AMC; it would otherwise have been a top momentum pick, +12% for the week), AMZN (Oct 29 AMC), LLY (Oct 29 BMO), XOM (Oct 30 BMO; strong oil momentum, but a binary earnings event).</li>\n<li><strong>Indirect exposure:</strong> QQQM holds MSFT, GOOGL and AMZN. That is one reason the core leans toward VOO (36%) over QQQM (26%), and why the core has a -4% stop.</li>\n<li><strong>Macro:</strong> FOMC decision Wed Oct 28 at 14:00 ET (a hold at 3.75-4.00% is expected). PCE and Q3 GDP Thu Oct 29 at 08:30 ET.</li>\n</ul>\n<h3>2. Research and reasoning (Sat Oct 24, 2026, ~10:15 ET / 17:15 Asia/Jerusalem)</h3>\n<h4>Data sources</h4>\n<ul>\n<li>Prices and momentum: Yahoo Finance v8 chart API (<code>query1.finance.yahoo.com/v8/finance/chart/&lt;T&gt;</code>), pulled 2026-10-24 10:14-10:15 ET. Last bar is the Fri 2026-10-23 16:00 ET close. Raw snapshot: <code>friday_close_2026-10-23.json</code>.</li>\n<li>Earnings dates: stocktitan.net \"Earnings Calendar for the Week of October 26, 2026\" and tiltradar.com \"earnings this week\" (both updated Oct 23, 2026, from company IR notices).</li>\n<li>Market context: CNBC \"Next week brings major risks for the stock market, just as the AI trade keeps faltering\" (Oct 23, 2026). Fidelity weekly update (Oct 23, 2026).</li>\n<li>Single-name news: Investing.com and Yahoo Finance on the CRWD/cyber rally (Oct 23, 2026). Yahoo Finance \"Palantir Just Gained 7% in a Month\" (Oct 22, 2026). TipRanks on ARK trades, PLTR/SHOP (Oct 2026).</li>\n</ul>\n<h4>Market backdrop</h4>\n<ul>\n<li>SPY closed at 759.97, -0.4% for the week and 2.8% below its 52-week high, just under its 50-day average (767.8). QQQM is -4.9% over 1 month.</li>\n<li>The AI and semiconductor trade is weak: semis are down more than 15% in October, memory more than 20%. META fell 9% for the week after earnings (negative FCF, capex worries).</li>\n<li>Software, and cybersecurity especially, is the area with relative strength. Oil is at a 5-month high.</li>\n<li>Conclusion: momentum is narrow and event risk next week is high (3 hyperscaler reports, FOMC, PCE). That argues for a mostly broad core, a modest satellite sleeve, tight stops, and no names that report this week.</li>\n</ul>\n<h4>Momentum scan (Fri Oct 23 close; 5d / 1mo / 3mo % change, price vs 50-day SMA)</h4>\n<ul>\n<li>Leaders above their 50-day SMA: NOW (+12/+15/+51), CRWD (+13/-1/+43), PLTR (+6/+2/+50), SHOP (-0.5/+16/+33), XOM (+2/+13/+18), COST (+1/+12/+5), WMT (+1/+11/+7), LLY (+1/+8/+6), MSFT (-1/+5/+35), AAPL (+1/+4/+3).</li>\n<li>Laggards below their 50-day SMA, skipped: NVDA, AVGO, AMD, MU, TSM, ANET, ORCL, META, GOOGL, AMZN, APP, GE, CAT, UBER, NFLX, JPM.</li>\n<li>After removing names that report Oct 26-30 (NOW, XOM, LLY, MSFT), the candidates left were CRWD, PLTR, SHOP, COST, WMT and AAPL.</li>\n</ul>\n<h4>Picks</h4>\n<ul>\n<li><strong>VOO ($360, core).</strong> Broad S&amp;P 500 exposure, less tech-concentrated while the AI trade is shaky. It is the largest weight and stays under the 40% cap.</li>\n<li><strong>QQQM ($260, core).</strong> Nasdaq-100 growth exposure, in line with Dmitry's goal of faster growth. It is smaller than VOO because of the MSFT/GOOGL/AMZN earnings and the -4.9% 1-month trend.</li>\n<li><strong>CRWD ($120, satellite, largest).</strong> It has the strongest fresh catalyst: +13.3% for the week, +8.3% on Fri Oct 23 to 257.57 on 1.6x average volume. Drivers: an Evercore ISI channel survey (firmer year-end security budgets), the PHP2Shell critical vulnerabilities (CVE-2026-109618/9, widely exploited), and a Mizuho target raise to $275. +43% over 3 months, above its 50-day SMA (234.8). No earnings until about Dec 1. Risk: it is extended after a 1-day +8% jump, which the gap-up filter covers.</li>\n<li><strong>PLTR ($105, satellite).</strong> +50% over 3 months, +5.8% for the week, above its 50-day SMA (184.8), 7.6% below its record close of 209.05 (Oct 9). Goldman, Barclays, Baird and Mizuho raised targets in October. Earnings come Nov 2 after the close, after the sim ends, so there is no earnings gap inside the window. Risk: a rich valuation (~100x forward P/E) and high beta to software selloffs (-7% on Oct 16), which is why it is smaller than CRWD.</li>\n<li><strong>COST ($105, satellite, defensive momentum).</strong> +11.9% over 1 month, above its 50-day SMA (938.9), low beta. No earnings this week. It balances the two high-beta software names and diversifies the satellites away from a single theme.</li>\n<li><strong>Not picked:</strong> SHOP (good momentum, but it would make three software/high-beta tech names; ARK was selling; earnings Nov 3). WMT (similar defensive role to COST, slightly weaker). AAPL (weak 3-month trend).</li>\n</ul>\n<h4>Friday Oct 23, 2026 reference closes (Yahoo)</h4>\n<p>SPY 759.97 | VOO 698.58 | QQQM 290.06 | CRWD 257.57 | PLTR 196.75 | COST 1003.32</p>\n<h4>Indicative levels if filled at Friday close plus 0.1% (actual levels are set from Monday's fills)</h4>\n<div class=\"tw\"><table><thead><tr><th>Ticker</th><th>~Entry</th><th>Stop</th><th>Take-profit (+10%, sell half)</th></tr></thead><tbody>\n<tr><td>VOO</td><td>699.28</td><td>671.31 (-4%)</td><td>none</td></tr>\n<tr><td>QQQM</td><td>290.35</td><td>278.74 (-4%)</td><td>none</td></tr>\n<tr><td>CRWD</td><td>257.83</td><td>239.78 (-7%)</td><td>283.61</td></tr>\n<tr><td>PLTR</td><td>196.95</td><td>183.16 (-7%)</td><td>216.64</td></tr>\n<tr><td>COST</td><td>1004.32</td><td>934.02 (-7%)</td><td>1104.76</td></tr>\n</tbody></table></div>\n<p>Worst case if every stop is hit at its level: core -$24.80, satellites -$23.10, about -$48 total (-4.8%), before gap slippage.</p>",
-  "mtime_il": "2026-10-24 17:16:15"
+  "mtime_il": "2026-10-26 16:15:25"
  },
- "generated_at_il": "2026-10-24 17:52:07"
+ "generated_at_il": "2026-10-26 16:15:29"
 }
