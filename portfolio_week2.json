@@ -49,7 +49,7 @@
   "Fills: BUY at ask, SELL at bid. Positions are valued at the bid minus sell commission.",
   "4 plays, one per earnings report, all with the 2026-11-06 expiry: PLTR calls (Mon), AMD puts (Tue), ARM calls (Wed), AFRM calls (Thu).",
   "Entry: at the 15:30 ET run on the report day (reports are after the close). Fallback: if that run is missed, enter in the 16:20 ET run on frozen closing quotes; after 16:45 ET the play is skipped.",
-  "Sizing: PLTR a fixed $360. AMD 40%, ARM 30%, AFRM 30% of the cash available at entry time (so proceeds of earlier plays roll forward). Strike nearest to the target OTM% (PLTR 14%, AMD 16%, ARM 17%, AFRM 15%), stepping further OTM if 1 contract does not fit; if nothing fits, skip.",
+  "Sizing: PLTR a fixed $360. AMD 40%, ARM 30%, AFRM 30% of the cash available at entry time (so proceeds of earlier plays roll forward). Strike nearest to the target OTM% (PLTR 14%, AMD 16%, ARM 17%, AFRM 15%; max 25%/28%/30%/28%), stepping further OTM if 1 contract does not fit; if nothing fits, skip.",
   "Exit: every position is sold at the bid in the first run at or after 09:45 ET on the morning after the report (IV crush: never hold through the next day).",
   "Take-profit backstop: at any run, if a position's bid value (net of commission) is >= 2.0x its cost (+100%), sell it all.",
   "No premium stop-loss (the plan is all-or-nothing); the maximum loss per play is its cost.",
@@ -102,7 +102,7 @@
    "exit_at": "2026-11-03 09:45",
    "expiry": "2026-11-06",
    "target_otm_pct": 0.14,
-   "max_otm_pct": 0.22,
+   "max_otm_pct": 0.25,
    "budget": {
     "type": "usd",
     "value": 360
@@ -124,7 +124,7 @@
    "exit_at": "2026-11-04 09:45",
    "expiry": "2026-11-06",
    "target_otm_pct": 0.16,
-   "max_otm_pct": 0.24,
+   "max_otm_pct": 0.28,
    "budget": {
     "type": "pct_cash",
     "value": 0.4
@@ -146,7 +146,7 @@
    "exit_at": "2026-11-05 09:45",
    "expiry": "2026-11-06",
    "target_otm_pct": 0.17,
-   "max_otm_pct": 0.26,
+   "max_otm_pct": 0.3,
    "budget": {
     "type": "pct_cash",
     "value": 0.3
@@ -168,7 +168,7 @@
    "exit_at": "2026-11-06 09:45",
    "expiry": "2026-11-06",
    "target_otm_pct": 0.15,
-   "max_otm_pct": 0.25,
+   "max_otm_pct": 0.28,
    "budget": {
     "type": "pct_cash",
     "value": 0.3
