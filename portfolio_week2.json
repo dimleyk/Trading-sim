@@ -1,0 +1,209 @@
+{
+ "sim_name": "Week 2: all-or-nothing, simulated options before earnings (PAPER TRADING, no real money)",
+ "status": "READY",
+ "simulation_only": true,
+ "period": {
+  "start": "2026-11-02",
+  "end": "2026-11-06",
+  "first_run": "2026-11-02 09:45",
+  "final_run": "2026-11-06 16:20",
+  "timezone": "America/New_York"
+ },
+ "created_at": "2026-10-31 (Europe/Budapest)",
+ "user_request": "Dmitry (2026-10-31): another week, this time 'no way you don't double the portfolio, do what it takes'; chose 'all-or-nothing: simulated options before earnings'. Doubling is NOT guaranteed.",
+ "starting_cash": 1000.0,
+ "cash": 1000.0,
+ "realized_pnl_usd": 0.0,
+ "goal": {
+  "multiple": 2.0,
+  "target_value": 2000.0,
+  "note": "Aggressive aim, not a promise. Model estimate: ~10-15% chance of reaching $2,000; >50% chance of ending below $500."
+ },
+ "broker": {
+  "type": "simulated options broker",
+  "fill_model": "BUY at the ask, SELL at the bid (full spread paid), no extra slippage",
+  "commission_per_contract": 0.65,
+  "contract_multiplier": 100,
+  "whole_contracts_only": true,
+  "long_options_only": true,
+  "no_margin": true,
+  "no_shorting": true,
+  "no_spreads": true,
+  "quote_source": "Yahoo Finance option chains (cookie+crumb) via yopt.py; may lag the exchange by a few minutes",
+  "mark_to_market": "positions valued at the bid minus sell commission (conservative liquidation value)"
+ },
+ "contract_filters": {
+  "max_spread_pct_of_mid": 0.4,
+  "max_spread_abs": 0.35,
+  "min_open_interest": 100,
+  "expiry": "2026-11-06",
+  "note": "strike = nearest to target OTM %, then further OTM (cheaper) up to max_otm_pct until 1+ contract fits the play budget; none fits -> skip the play"
+ },
+ "rules_params": {
+  "take_profit_multiple": 2.0,
+  "goal_lock": true
+ },
+ "rules": [
+  "SIMULATION ONLY: no broker, no account, no real money, nothing is sent to anyone.",
+  "Instruments: long calls/puts only (no spreads, no shorting, no margin). Whole contracts, 100 shares each, $0.65 per contract commission each way.",
+  "Fills: BUY at ask, SELL at bid. Positions are valued at the bid minus sell commission.",
+  "4 plays, one per earnings report, all with the 2026-11-06 expiry: PLTR calls (Mon), AMD puts (Tue), ARM calls (Wed), AFRM calls (Thu).",
+  "Entry: at the 15:30 ET run on the report day (reports are after the close). Fallback: if that run is missed, enter in the 16:20 ET run on frozen closing quotes; after 16:45 ET the play is skipped.",
+  "Sizing: PLTR a fixed $360. AMD 40%, ARM 30%, AFRM 30% of the cash available at entry time (so proceeds of earlier plays roll forward). Strike nearest to the target OTM% (PLTR 14%, AMD 16%, ARM 17%, AFRM 15%), stepping further OTM if 1 contract does not fit; if nothing fits, skip.",
+  "Exit: every position is sold at the bid in the first run at or after 09:45 ET on the morning after the report (IV crush: never hold through the next day).",
+  "Take-profit backstop: at any run, if a position's bid value (net of commission) is >= 2.0x its cost (+100%), sell it all.",
+  "No premium stop-loss (the plan is all-or-nothing); the maximum loss per play is its cost.",
+  "Missed exits are executed by the next hourly run. Unspent cash stays idle (no other trading).",
+  "Goal lock: once equity >= $2,000, no new entries; remaining positions still exit by the rules.",
+  "No new entries on Friday. Friday after-close run closes everything (expired options settle at intrinsic value) and the simulation is FINISHED.",
+  "Benchmark: SPY buy-and-hold from the first run on Monday 09:45 ET with $1,000 (Friday 2026-10-30 close was 755.72)."
+ ],
+ "earnings_calendar": [
+  {
+   "ticker": "PLTR",
+   "date": "2026-11-02",
+   "weekday": "Mon",
+   "timing": "after close",
+   "source": "Palantir IR; Yahoo calendarEvents (confirmed, not estimated)"
+  },
+  {
+   "ticker": "AMD",
+   "date": "2026-11-03",
+   "weekday": "Tue",
+   "timing": "after close",
+   "source": "AMD IR; Yahoo (confirmed)"
+  },
+  {
+   "ticker": "ARM",
+   "date": "2026-11-04",
+   "weekday": "Wed",
+   "timing": "after close",
+   "source": "Arm newsroom 2026-10-05; Yahoo (confirmed)"
+  },
+  {
+   "ticker": "AFRM",
+   "date": "2026-11-05",
+   "weekday": "Thu",
+   "timing": "after close",
+   "source": "Affirm IR 2026-10-05; Yahoo (confirmed)"
+  }
+ ],
+ "plays": [
+  {
+   "id": "P1",
+   "ticker": "PLTR",
+   "side": "C",
+   "report": {
+    "date": "2026-11-02",
+    "timing": "after close (AMC), call 17:00 ET"
+   },
+   "entry_at": "2026-11-02 15:30",
+   "entry_deadline": "2026-11-02 16:45",
+   "exit_at": "2026-11-03 09:45",
+   "expiry": "2026-11-06",
+   "target_otm_pct": 0.14,
+   "max_otm_pct": 0.22,
+   "budget": {
+    "type": "usd",
+    "value": 360
+   },
+   "thesis_short": "PLTR calls",
+   "thesis": "Long OTM call. Actual 1-day move beat the implied move in 12 of the last 17 prints, 63% positive reactions, last print +29.5% vs ±12% implied; analysts leaning 'beat and raise'. A bet, not an edge.",
+   "status": "pending"
+  },
+  {
+   "id": "P2",
+   "ticker": "AMD",
+   "side": "P",
+   "report": {
+    "date": "2026-11-03",
+    "timing": "after close (AMC), call 17:00 ET"
+   },
+   "entry_at": "2026-11-03 15:30",
+   "entry_deadline": "2026-11-03 16:45",
+   "exit_at": "2026-11-04 09:45",
+   "expiry": "2026-11-06",
+   "target_otm_pct": 0.16,
+   "max_otm_pct": 0.24,
+   "budget": {
+    "type": "pct_cash",
+    "value": 0.4
+   },
+   "thesis_short": "AMD puts",
+   "thesis": "Long OTM put. Stock at record after a huge run: sell-the-news pattern (day-1 reaction positive only 3 of the last 8 prints). Contrarian bet; a gap up loses the whole premium.",
+   "status": "pending"
+  },
+  {
+   "id": "P3",
+   "ticker": "ARM",
+   "side": "C",
+   "report": {
+    "date": "2026-11-04",
+    "timing": "after close (AMC), webcast 14:00 PT"
+   },
+   "entry_at": "2026-11-04 15:30",
+   "entry_deadline": "2026-11-04 16:45",
+   "exit_at": "2026-11-05 09:45",
+   "expiry": "2026-11-06",
+   "target_otm_pct": 0.17,
+   "max_otm_pct": 0.26,
+   "budget": {
+    "type": "pct_cash",
+    "value": 0.3
+   },
+   "thesis_short": "ARM calls",
+   "thesis": "Long OTM call. Washed-out stock (about -30% in a month, -54% from the 52-week high): oversold-bounce bet if guidance is fine.",
+   "status": "pending"
+  },
+  {
+   "id": "P4",
+   "ticker": "AFRM",
+   "side": "C",
+   "report": {
+    "date": "2026-11-05",
+    "timing": "after close (AMC), call 14:00 PT"
+   },
+   "entry_at": "2026-11-05 15:30",
+   "entry_deadline": "2026-11-05 16:45",
+   "exit_at": "2026-11-06 09:45",
+   "expiry": "2026-11-06",
+   "target_otm_pct": 0.15,
+   "max_otm_pct": 0.25,
+   "budget": {
+    "type": "pct_cash",
+    "value": 0.3
+   },
+   "thesis_short": "AFRM calls",
+   "thesis": "Long OTM call. Momentum into the print (+4.8% in 5 days) and a historically big earnings mover. Wide spreads: cost is counted by buying at ask / selling at bid.",
+   "status": "pending"
+  }
+ ],
+ "positions": [],
+ "trades": [],
+ "equity_history": [],
+ "benchmark": {
+  "ticker": "SPY",
+  "rule": "Hypothetical $1000 buy-and-hold of SPY from the Monday 09:45 ET run",
+  "friday_ref_close": 755.72,
+  "entry_price": null
+ },
+ "reference_quotes_friday_close": {
+  "note": "Friday 2026-10-30 close, Nov-6 expiry, for planning only; real fills use live quotes",
+  "PLTR": {
+   "spot": 184.11,
+   "pick": "210C 3.40/3.55 (est cost 355.65, 1 contract)"
+  },
+  "AMD": {
+   "spot": 504.8,
+   "pick": "420P 2.46/2.66 or 410P 1.90/2.04"
+  },
+  "ARM": {
+   "spot": 205.97,
+   "pick": "240C 2.59/2.70 or 250C 1.52/1.64"
+  },
+  "AFRM": {
+   "spot": 73.47,
+   "pick": "85C 0.86/1.22"
+  }
+ }
+}

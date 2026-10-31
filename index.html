@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>סימולציית מסחר – $1,000 (ללא כסף אמיתי)</title>
+<title>שבוע 2: הכול או כלום – אופציות לפני דוחות (ללא כסף אמיתי)</title>
 <style>
 :root{--bg:#0f1420;--card:#171e2e;--mut:#8a96ad;--txt:#e7ecf5;--g:#22c55e;--r:#ef4444;--acc:#60a5fa;--b:#263049}
 *{box-sizing:border-box}
@@ -27,9 +27,9 @@ th,td{padding:6px 8px;border-bottom:1px solid var(--b);text-align:right;white-sp
 th{color:var(--mut);font-weight:600}
 .pill{display:inline-block;padding:2px 8px;border-radius:99px;background:#1e3a8a;color:#bfdbfe;font-size:12px}
 .pill.warn{background:#78350f;color:#fde68a}
-.log{direction:ltr;text-align:left;font-size:14px}
+.log{direction:rtl;text-align:right;font-size:14px}
 .log h2,.log h3,.log h4{margin:14px 0 6px}
-.log table td,.log table th{white-space:normal;text-align:left}
+.log table td,.log table th{white-space:normal;text-align:right}
 .log code{background:#0b1020;padding:1px 4px;border-radius:4px}
 details summary{cursor:pointer;color:var(--acc);font-weight:600}
 ul.rules{margin:0;padding-inline-start:20px}
@@ -38,59 +38,55 @@ svg text{fill:var(--mut);font-size:11px}
 .legend span{margin-inline-end:14px;font-size:13px}
 .err{color:#fca5a5;font-size:13px}
 footer{color:var(--mut);font-size:12px;text-align:center;margin:20px 0}
+.bar{background:#0b1020;border-radius:99px;height:14px;overflow:hidden;border:1px solid var(--b)}.bar i{display:block;height:100%;background:linear-gradient(90deg,#f59e0b,#22c55e)}
+.arch{background:#1e3a8a;border-radius:10px;padding:8px 14px;margin:10px 0;text-align:center}.arch a{color:#bfdbfe;font-weight:700}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="banner">⚠️ סימולציית מסחר על הנייר – אין כסף אמיתי<br><span class="ltr">Paper-trading simulation, no real money</span>
-    <small>שום עסקה לא מבוצעת בפועל. מחירים אמיתיים מ‑Yahoo Finance, ביצועים מדומים.</small></div>
+    <small>שום עסקה לא מבוצעת בפועל. ציטוטי אופציות אמיתיים מ‑Yahoo Finance, ביצועים מדומים. אופציות לפני דוחות: סיכון גבוה מאוד להפסד של רוב הסכום.</small></div>
+  <div class="arch">📁 <a href="week1/">ארכיון שבוע 1 (26-30.10.2026, מניות וקרנות): $971.88, ‏-2.81%</a></div>
 
-  <h1>מעקב בזמן אמת: <span class="ltr">$1,000</span>, שבוע אחד</h1>
-  <div class="card" style="text-align:center;font-size:18px;margin-top:12px">עודכן ב‑<b class="ltr" id="upd2">…</b> <span class="k">(שעון ישראל)</span> · <span class="ltr">Updated at</span></div>
-  <div class="sub">עודכן לאחרונה (שעון ישראל): <b class="ltr" id="upd">…</b> · מחירים נמשכו: <span class="ltr" id="pxat">…</span> · רענון אוטומטי כל 60 שניות · הנתונים מתעדכנים בכל ריצה של הסימולציה · <span id="status"></span></div>
+  <h1>שבוע 2 · הכול או כלום: <span class="ltr">$1,000 → $2,000</span>? (2-6.11.2026)</h1>
+  <div class="sub">עודכן לאחרונה (שעון ישראל): <b class="ltr" id="upd">…</b> · SPY: <span class="ltr" id="spyat">…</span> · רענון אוטומטי כל 60 שניות · <span id="status"></span></div>
 
   <div class="grid">
-    <div class="card"><div class="k">שווי כולל</div><div class="v" id="total">…</div><div class="k ltr" id="totpct"></div></div>
+    <div class="card"><div class="k">שווי כולל (פירוק ב‑BID)</div><div class="v" id="total">…</div><div class="k ltr" id="totpct"></div></div>
     <div class="card"><div class="k">רווח/הפסד מול $1,000</div><div class="v" id="pnl">…</div></div>
     <div class="card"><div class="k">מזומן</div><div class="v" id="cash">…</div></div>
-    <div class="card"><div class="k">מדד ייחוס: SPY קנה‑והחזק</div><div class="v" id="bench">…</div><div class="k" id="benchsub"></div></div>
+    <div class="card"><div class="k">SPY קנה‑והחזק</div><div class="v" id="bench">…</div><div class="k" id="benchsub"></div></div>
   </div>
 
-  <div class="card" id="pendingCard" style="display:none">
-    <h2>פקודות ממתינות <span class="pill warn">PENDING_ENTRY</span></h2>
-    <div class="sub" id="pendingNote"></div>
-    <div class="tw"><table><thead><tr><th>Ticker</th><th>Side</th><th>$</th><th>Role</th><th>Fri close</th><th>Live</th><th>Δ%</th><th>~Shares</th></tr></thead><tbody id="pending"></tbody></table></div>
+  <div class="card"><h2>ההתקדמות ליעד <span class="ltr">$2,000</span></h2><div class="bar"><i id="goalbar" style="width:0"></i></div><div class="sub ltr" id="goaltxt"></div>
+    <div class="sub" style="margin-top:6px">היעד שאפתני ואינו מובטח. לפי המודל הסיכוי להגיע אליו כ‑12%‑15%, והסיכוי לסיים מתחת ל‑$500 מעל 50%.</div></div>
+
+  <div class="card"><h2>המהלכים והדוחות</h2>
+    <div class="tw"><table><thead><tr><th>#</th><th>Ticker</th><th>Side</th><th>דוח (אחרי הסגירה)</th><th>כניסה (ET)</th><th>יציאה (ET)</th><th>גודל</th><th>סטטוס</th></tr></thead><tbody id="plays"></tbody></table></div>
   </div>
 
   <div class="card">
-    <h2>פוזיציות פתוחות</h2>
-    <div class="tw"><table><thead><tr><th>Ticker</th><th>Shares</th><th>Entry</th><th>Live</th><th>Value</th><th>P/L $</th><th>P/L %</th><th>Stop</th><th>Take‑profit</th></tr></thead><tbody id="positions"></tbody></table></div>
+    <h2>פוזיציות אופציות</h2>
+    <div class="tw"><table><thead><tr><th>Contract</th><th>Qty</th><th>Entry (ask)</th><th>Bid</th><th>Ask</th><th>Underlying</th><th>Value @bid</th><th>P/L $</th><th>P/L %</th><th>Status</th></tr></thead><tbody id="positions"></tbody></table></div>
   </div>
 
   <div class="card">
     <h2>גרף שווי התיק</h2>
-    <div class="legend"><span style="color:var(--acc)">■ תיק</span><span style="color:#f59e0b">■ SPY ($1,000)</span><span style="color:var(--mut)">--- $1,000</span></div>
+    <div class="legend"><span style="color:var(--acc)">■ תיק</span><span style="color:#f59e0b">■ SPY ($1,000)</span><span style="color:#22c55e">--- יעד $2,000</span><span style="color:var(--mut)">--- $1,000</span></div>
     <div id="chart"></div>
   </div>
 
   <div class="card">
     <h2>עסקאות</h2>
-    <div class="tw"><table><thead><tr><th>Time (ET)</th><th>Ticker</th><th>Side</th><th>Shares</th><th>Fill</th><th>$</th><th>Reason</th><th>Realized P/L</th></tr></thead><tbody id="trades"></tbody></table></div>
+    <div class="tw"><table><thead><tr><th>Time (ET)</th><th>Action</th><th>Contract</th><th>Qty</th><th>Price</th><th>Comm.</th><th>Cash Δ</th><th>Reason</th><th>P/L $</th></tr></thead><tbody id="trades"></tbody></table></div>
   </div>
+
+  <div class="card" id="finalCard" style="display:none"><h2>תוצאה סופית</h2><div id="final"></div></div>
 
   <div class="card">
     <h2>הכללים</h2>
-    <ul class="rules">
-      <li><b>ברוקר מדומה:</b> ללא עמלות, חלקי מניות, פקודות שוק בלבד, החלקה <span class="ltr">0.1%</span>. בלי מינוף, מרג'ין, אופציות או שורט.</li>
-      <li><b>הקצאה:</b> <span class="ltr">VOO $360 · QQQM $260 · CRWD $120 · PLTR $105 · COST $105 · Cash $50</span></li>
-      <li><b>כניסה:</b> ביום שני <span class="ltr">26.10</span> בסביבות <span class="ltr">10:00 ET</span> (<span class="ltr">17:00</span> שעון ישראל). מניה בודדת שקפצה מעל <span class="ltr">+5%</span> מסגירת שישי – קונים רק חצי. מניה שכבר ירדה יותר מרמת הסטופ שלה – מדלגים.</li>
-      <li><b>סטופ‑לוס:</b> קרנות <span class="ltr">-4%</span>, מניות בודדות <span class="ltr">-7%</span> ממחיר הכניסה.</li>
-      <li><b>מימוש רווח (מניות בודדות):</b> ב‑<span class="ltr">+10%</span> מוכרים חצי, הסטופ על היתרה עולה למחיר הכניסה, ואז סטופ נגרר <span class="ltr">-5%</span> מהשיא.</li>
-      <li><b>בלם חירום:</b> אם התיק יורד מתחת ל‑<span class="ltr">$920</span> – מוכרים את כל המניות הבודדות ונשארים רק עם הקרנות.</li>
-      <li><b>משמעת:</b> לא מוסיפים לפוזיציה, לא ממצעים כלפי מטה, מזומן ממכירה נשאר מזומן עד סוף השבוע.</li>
-      <li><b>בדיקות:</b> פעמיים ביום, בסביבות <span class="ltr">10:00</span> ו‑<span class="ltr">16:20 ET</span>. ביום שישי <span class="ltr">30.10</span> מוכרים הכול ומשווים ל‑SPY.</li>
-    </ul>
-    <details style="margin-top:10px"><summary>הכללים המלאים והמחקר (מתוך log.md)</summary><div class="log" id="research"></div></details>
+    <ul class="rules" id="rules" style="direction:ltr;text-align:left"></ul>
+    <details style="margin-top:10px"><summary>התוכנית המלאה (מתוך log.md)</summary><div class="log" id="research"></div></details>
   </div>
 
   <div class="card">
@@ -108,48 +104,46 @@ const px=x=>x==null?'—':Number(x).toLocaleString('en-US',{minimumFractionDigit
 const pct=x=>x==null?'—':(x>0?'+':'')+Number(x).toFixed(2)+'%';
 const cls=x=>x==null?'':(x>0?'pos':(x<0?'neg':''));
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function pick(o,keys){for(const k of keys){if(o&&o[k]!=null)return o[k]}return null}
-
+const SIDE={C:'CALL',P:'PUT'};
 function chart(hist,s){
-  const pts=hist.map(h=>({t:pick(h,['time_il','time_et','time','ts','date'])||'',v:Number(pick(h,['total_value','equity','total','value'])),b:pick(h,['benchmark_value','spy_value','bench_value','spy'])})).filter(p=>!isNaN(p.v));
-  pts.push({t:'עכשיו',v:s.total_value,b:s.benchmark.value});
+  const pts=hist.map(h=>({t:h.time_et||'',v:Number(h.total_value),b:h.benchmark_value})).filter(p=>!isNaN(p.v));
+  if(s.status!='FINISHED')pts.push({t:'עכשיו',v:s.total_value,b:s.benchmark.value});
   if(pts.length<2){pts.unshift({t:'התחלה',v:s.starting_cash,b:s.starting_cash})}
-  const W=900,H=240,L=56,R=10,T=10,B=28;
+  const W=900,H=240,L=56,R=10,T=10,B=28,G=s.goal.target_value;
   const vals=pts.flatMap(p=>[p.v,p.b==null?null:Number(p.b)]).filter(v=>v!=null&&!isNaN(v)).concat([s.starting_cash]);
-  let mn=Math.min(...vals),mx=Math.max(...vals);const pad=Math.max((mx-mn)*0.15,5);mn-=pad;mx+=pad;
-  const X=i=>L+(W-L-R)*(pts.length==1?0.5:i/(pts.length-1)), Y=v=>T+(H-T-B)*(1-(v-mn)/(mx-mn));
+  let mn=Math.min(...vals),mx=Math.max(...vals,G*0.55);const pad=Math.max((mx-mn)*0.12,5);mn-=pad;mx+=pad;
+  const X=i=>L+(W-L-R)*(pts.length==1?0.5:i/(pts.length-1)),Y=v=>T+(H-T-B)*(1-(v-mn)/(mx-mn));
   const line=(acc,color)=>{const q=pts.map((p,i)=>[i,acc(p)]).filter(([i,v])=>v!=null&&!isNaN(v));if(q.length<1)return'';
     return `<polyline fill="none" stroke="${color}" stroke-width="2.5" points="${q.map(([i,v])=>X(i)+','+Y(v)).join(' ')}"/>`+q.map(([i,v])=>`<circle cx="${X(i)}" cy="${Y(v)}" r="3" fill="${color}"/>`).join('')};
   let g='';for(let k=0;k<=4;k++){const v=mn+(mx-mn)*k/4;g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#263049"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end">${v.toFixed(0)}</text>`}
   const step=Math.ceil(pts.length/6);let xl='';pts.forEach((p,i)=>{if(i%step==0||i==pts.length-1)xl+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle">${esc(String(p.t).replace(/ ?ET$/,'').slice(5,16)||p.t)}</text>`});
-  $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="direction:ltr">${g}<line x1="${L}" x2="${W-R}" y1="${Y(s.starting_cash)}" y2="${Y(s.starting_cash)}" stroke="#8a96ad" stroke-dasharray="5 4"/>${line(p=>p.b==null?null:Number(p.b),'#f59e0b')}${line(p=>p.v,'#60a5fa')}${xl}</svg>`;
+  const gl=(G>=mn&&G<=mx)?`<line x1="${L}" x2="${W-R}" y1="${Y(G)}" y2="${Y(G)}" stroke="#22c55e" stroke-dasharray="5 4"/>`:'';
+  $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="direction:ltr">${g}${gl}<line x1="${L}" x2="${W-R}" y1="${Y(s.starting_cash)}" y2="${Y(s.starting_cash)}" stroke="#8a96ad" stroke-dasharray="5 4"/>${line(p=>p.b==null?null:Number(p.b),'#f59e0b')}${line(p=>p.v,'#60a5fa')}${xl}</svg>`;
 }
-
+const PSTAT={pending:'ממתין',entered:'נכנס',skipped:'דולג'};
 async function load(){
   try{
     const s=await fetch('data.json?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()});const l=s.log||{runs_html:'',research_html:''};
-    if(s.error)throw new Error(s.error);
-    const upd=[s.portfolio_file_mtime_il,s.log_file_mtime_il].filter(Boolean).sort().pop();
-    $('upd').textContent=(s.generated_at_il||'—')+' (Asia/Jerusalem)';$('upd2').textContent=(s.generated_at_il||'—');
-    $('pxat').textContent=(s.prices.fetched_at_il||'—')+' IL'+(s.prices.quotes.SPY?' · market time '+s.prices.quotes.SPY.market_time_et:'');
+    $('upd').textContent=(s.generated_at_il||'—')+' (Asia/Jerusalem)';
+    $('spyat').textContent=px(s.benchmark.price)+' ('+(s.benchmark.source||'')+', '+(s.benchmark.as_of||'')+')';
     $('status').innerHTML='סטטוס: <span class="pill">'+esc(s.status)+'</span>';
     $('total').textContent=usd(s.total_value);$('total').className='v '+cls(s.total_pnl_usd);
-    $('totpct').textContent=pct(s.total_pnl_pct)+' vs $1,000';
+    $('totpct').textContent=pct(s.total_pnl_pct)+' vs $1,000 · '+(s.total_value/s.starting_cash).toFixed(2)+'x';
     $('pnl').textContent=(s.total_pnl_usd>0?'+':'')+usd(s.total_pnl_usd);$('pnl').className='v '+cls(s.total_pnl_usd);
     $('cash').textContent=usd(s.cash);
     const b=s.benchmark;
-    if(b.started){$('bench').textContent=usd(b.value);$('bench').className='v '+cls(b.pct);$('benchsub').innerHTML='<span class="ltr">'+pct(b.pct)+' · SPY '+px(b.live_price)+' (entry '+px(b.entry_price)+')</span>'}
-    else{$('bench').textContent=usd(s.starting_cash);$('bench').className='v';$('benchsub').innerHTML='יתחיל בכניסה ביום שני · <span class="ltr">SPY '+px(b.live_price)+' ('+pct(b.chg_vs_ref_pct)+' vs Fri close)</span>'}
-    // pending
-    if(s.pending_orders.length){$('pendingCard').style.display='';
-      $('pendingNote').innerHTML='ייכנסו בריצה של יום שני <span class="ltr">26.10 ~10:00 ET</span> (<span class="ltr">~17:00</span> שעון ישראל). עד אז כל ה‑<span class="ltr">$1,000</span> במזומן.';
-      $('pending').innerHTML=s.pending_orders.map(o=>`<tr><td><b>${esc(o.ticker)}</b></td><td>${esc(o.side)}</td><td>${usd(o.usd)}</td><td>${esc(o.role)}</td><td>${px(o.ref_close_2026_10_23)}</td><td>${px(o.live_price)}</td><td class="${cls(o.chg_vs_ref_pct)}">${pct(o.chg_vs_ref_pct)}</td><td>${o.indicative_shares??'—'}</td></tr>`).join('');
-    } else $('pendingCard').style.display='none';
-    $('positions').innerHTML=s.positions.length?s.positions.map(p=>`<tr><td><b>${esc(p.ticker)}</b> <span class="k">${esc(p.role||'')}</span></td><td>${Number(p.shares).toFixed(6)}</td><td>${px(p.entry_price)}</td><td>${px(p.live_price)}</td><td>${usd(p.value)}</td><td class="${cls(p.pnl_usd)}">${usd(p.pnl_usd)}</td><td class="${cls(p.pnl_pct)}">${pct(p.pnl_pct)}</td><td>${px(p.stop_price)}${p.trailing_active?' <span class="pill">trail</span>':''}</td><td>${p.take_profit_price==null?'—':px(p.take_profit_price)}${p.tp_hit?' <span class="pill">hit</span>':''}</td></tr>`).join(''):'<tr><td colspan="9" style="text-align:center;color:var(--mut)">אין עדיין פוזיציות פתוחות</td></tr>';
-    $('trades').innerHTML=s.trades.length?s.trades.slice().reverse().map(t=>`<tr><td>${esc(t.time_et)}</td><td><b>${esc(t.ticker)}</b></td><td class="${t.side=='BUY'?'pos':'neg'}">${esc(t.side)}</td><td>${t.shares!=null?Number(t.shares).toFixed(6):'—'}</td><td>${px(t.fill_price)}</td><td>${usd(t.usd)}</td><td>${esc(t.reason)}</td><td class="${cls(t.realized_pnl_usd)}">${t.realized_pnl_usd==null?'—':usd(t.realized_pnl_usd)}</td></tr>`).join(''):'<tr><td colspan="8" style="text-align:center;color:var(--mut)">אין עדיין עסקאות</td></tr>';
+    if(b.value!=null){$('bench').textContent=usd(b.value);$('bench').className='v '+cls(b.pct);$('benchsub').innerHTML='<span class="ltr">'+pct(b.pct)+' (entry '+px(b.entry_price)+')</span>'}
+    else{$('bench').textContent=usd(s.starting_cash);$('bench').className='v';$('benchsub').innerHTML='יתחיל בריצה הראשונה ביום שני · <span class="ltr">Fri close '+px(b.friday_ref_close)+'</span>'}
+    $('goalbar').style.width=Math.max(0,Math.min(100,s.goal_progress_pct))+'%';$('goaltxt').textContent=usd(s.total_value)+' / '+usd(s.goal.target_value)+' ('+s.goal_progress_pct+'%)';
+    $('plays').innerHTML=s.plays.map(p=>`<tr><td>${esc(p.id)}</td><td><b>${esc(p.ticker)}</b></td><td>${SIDE[p.side]}</td><td>${esc(p.report.date)}</td><td>${esc(p.entry_at)}</td><td>${esc(p.exit_at)}</td><td>${p.budget.type=='usd'?usd(p.budget.value):(p.budget.value*100)+'% מזומן'}</td><td><span class="pill ${p.status=='skipped'?'warn':''}">${PSTAT[p.status]||esc(p.status)}</span>${p.skip_reason?' <span class="k">'+esc(p.skip_reason)+'</span>':''}</td></tr>`).join('');
+    $('positions').innerHTML=s.positions.length?s.positions.map(p=>{const open=p.status=='open';const v=open?p.value_bid:p.proceeds;const pl=open?p.pnl_usd:p.realized_pnl;const pp=open?p.pnl_pct:(p.cost?(p.proceeds/p.cost-1)*100:null);
+      return `<tr><td><b>${esc(p.ticker)}</b> ${px(p.strike)} ${SIDE[p.side]} <span class="k">${esc(p.expiry)}</span></td><td>${p.qty}</td><td>${px(p.entry_price)}</td><td>${open?px(p.bid):px(p.exit_price)}</td><td>${open?px(p.ask):'—'}</td><td>${open?px(p.spot):'—'}</td><td>${usd(v)}</td><td class="${cls(pl)}">${usd(pl)}</td><td class="${cls(pp)}">${pct(pp)}</td><td><span class="pill ${open?'':'warn'}">${open?'open':'closed'}</span></td></tr>`}).join(''):'<tr><td colspan="10" style="text-align:center;color:var(--mut)">אין עדיין פוזיציות (הכניסה הראשונה: יום שני 2.11, 15:30 ET)</td></tr>';
+    $('trades').innerHTML=s.trades.length?s.trades.slice().reverse().map(t=>`<tr><td>${esc(t.time_et)}</td><td class="${t.action=='BUY'?'pos':'neg'}">${esc(t.action)}</td><td>${esc(t.ticker)} ${px(t.strike)}${esc(t.side)}</td><td>${t.qty}</td><td>${px(t.price)}</td><td>${px(t.commission)}</td><td class="${cls(t.cash_delta)}">${usd(t.cash_delta)}</td><td>${esc(t.reason)}</td><td class="${cls(t.realized_pnl_usd)}">${t.realized_pnl_usd==null?'—':usd(t.realized_pnl_usd)}</td></tr>`).join(''):'<tr><td colspan="9" style="text-align:center;color:var(--mut)">אין עדיין עסקאות</td></tr>';
+    if(s.final_result){const f=s.final_result;$('finalCard').style.display='';$('final').innerHTML=`<div class="ltr">Final ${usd(f.final_value)} (${pct(f.change_pct)}, ${f.multiple_of_start}x) · goal $2,000 ${f.goal_reached?'REACHED':'NOT reached'} · SPY ${usd(f.spy_value)} (${pct(f.spy_change_pct)})</div>`}
+    $('rules').innerHTML=s.rules.map(r=>'<li>'+esc(r)+'</li>').join('');
     chart(s.equity_history||[],s);
     $('log').innerHTML=l.runs_html;$('research').innerHTML=l.research_html;
-    $('err').textContent=s.prices.errors&&s.prices.errors.length?'שגיאות מחיר: '+s.prices.errors.join('; '):'';
+    $('err').textContent=s.errors&&s.errors.length?'שגיאות: '+s.errors.join('; '):'';
   }catch(e){$('err').textContent='שגיאה בטעינה: '+e.message}
 }
 load();setInterval(load,60000);

@@ -1,0 +1,813 @@
+{
+  "_readme": "Paper-trading simulation for Dmitry. SIMULATION ONLY: no real broker, no real money, contact nobody. Routine runs ~10:00 ET and ~16:20 ET each trading day Oct 26-30 2026. Each run: (1) python3 /workspace/sim/price.py --json <tickers>, (2) if pending_orders not yet filled -> fill them (Monday 10:00 run only), (3) update high_water / check stops & take-profits per rules, (4) append fills to trades, (5) recompute valuation, append to equity_history, (6) append a dated entry to log.md, (7) save this file. Full rules are in rules below and at the top of log.md.",
+  "sim_name": "Dmitry 1-week paper trade",
+  "status": "FINISHED",
+  "created_at": "2026-10-24 10:15 ET (17:15 Asia/Jerusalem)",
+  "period": {
+    "start": "2026-10-26",
+    "end": "2026-10-30",
+    "entry_run": "2026-10-26 ~10:00 ET",
+    "final_run": "2026-10-30 ~16:20 ET"
+  },
+  "starting_cash": 1000.0,
+  "cash": 971.88,
+  "broker": {
+    "name": "Simulated commission-free broker",
+    "commission_per_trade": 0.0,
+    "fractional_shares": true,
+    "share_precision_decimals": 6,
+    "slippage_pct": 0.1,
+    "slippage_rule": "BUY fill = live_price * 1.001; SELL fill = live_price * 0.999",
+    "order_type": "market orders only, filled at the live price returned by price.py at run time",
+    "leverage": false,
+    "margin": false,
+    "options": false,
+    "shorting": false,
+    "price_source": "Yahoo Finance v8 chart API via /workspace/sim/price.py (regularMarketPrice)"
+  },
+  "target_allocation": {
+    "VOO": {
+      "usd": 360,
+      "pct": 36,
+      "role": "core",
+      "desc": "S&P 500 ETF"
+    },
+    "QQQM": {
+      "usd": 260,
+      "pct": 26,
+      "role": "core",
+      "desc": "Nasdaq-100 ETF"
+    },
+    "CRWD": {
+      "usd": 120,
+      "pct": 12,
+      "role": "satellite",
+      "desc": "CrowdStrike - cybersecurity momentum"
+    },
+    "PLTR": {
+      "usd": 105,
+      "pct": 10.5,
+      "role": "satellite",
+      "desc": "Palantir - software/AI momentum, reports Nov 2 (after sim)"
+    },
+    "COST": {
+      "usd": 105,
+      "pct": 10.5,
+      "role": "satellite",
+      "desc": "Costco - defensive momentum, no earnings in window"
+    },
+    "CASH": {
+      "usd": 50,
+      "pct": 5,
+      "role": "buffer"
+    }
+  },
+  "pending_orders": [
+    {
+      "ticker": "VOO",
+      "side": "BUY",
+      "usd": 360,
+      "role": "core",
+      "ref_close_2026_10_23": 698.58,
+      "status": "filled",
+      "fill_price": 703.5679,
+      "gap_vs_fri_pct": 0.61
+    },
+    {
+      "ticker": "QQQM",
+      "side": "BUY",
+      "usd": 260,
+      "role": "core",
+      "ref_close_2026_10_23": 290.06,
+      "status": "filled",
+      "fill_price": 292.1168,
+      "gap_vs_fri_pct": 0.61
+    },
+    {
+      "ticker": "CRWD",
+      "side": "BUY",
+      "usd": 120,
+      "role": "satellite",
+      "ref_close_2026_10_23": 257.57,
+      "status": "filled",
+      "fill_price": 258.245,
+      "gap_vs_fri_pct": 0.16
+    },
+    {
+      "ticker": "PLTR",
+      "side": "BUY",
+      "usd": 105,
+      "role": "satellite",
+      "ref_close_2026_10_23": 196.75,
+      "status": "filled",
+      "fill_price": 196.4062,
+      "gap_vs_fri_pct": -0.27
+    },
+    {
+      "ticker": "COST",
+      "side": "BUY",
+      "usd": 105,
+      "role": "satellite",
+      "ref_close_2026_10_23": 1003.32,
+      "status": "filled",
+      "fill_price": 1015.4394,
+      "gap_vs_fri_pct": 1.11
+    },
+    {
+      "ticker": "VOO",
+      "side": "SELL",
+      "usd": 150,
+      "role": "core",
+      "status": "filled",
+      "placed": "2026-10-27",
+      "fill_on": "2026-10-28 morning run",
+      "reason": "Dmitry's mid-week change: fund the earnings bets by trimming part of VOO",
+      "fill_price": 707.5018,
+      "filled_at": "2026-10-28 10:11 ET"
+    },
+    {
+      "ticker": "MSFT",
+      "side": "BUY",
+      "usd": 100,
+      "role": "satellite",
+      "status": "filled",
+      "placed": "2026-10-27",
+      "fill_on": "2026-10-28 morning run, after the VOO sell",
+      "reason": "Dmitry asked for a very bold play: hold through earnings after the 10/28 close",
+      "fill_price": 529.3788,
+      "filled_at": "2026-10-28 10:11 ET",
+      "gap_vs_prev_close_pct": -0.47
+    },
+    {
+      "ticker": "GOOGL",
+      "side": "BUY",
+      "usd": 100,
+      "role": "satellite",
+      "status": "filled",
+      "placed": "2026-10-27",
+      "fill_on": "2026-10-28 morning run, after the VOO sell",
+      "reason": "Dmitry asked for a very bold play: hold through earnings after the 10/28 close",
+      "fill_price": 324.7144,
+      "filled_at": "2026-10-28 10:11 ET",
+      "gap_vs_prev_close_pct": 1.19
+    }
+  ],
+  "entry_filters": {
+    "gap_up_halve_pct": 5.0,
+    "gap_up_halve_rule": "Satellite only: if Monday 10:00 price > Friday close by more than +5%, buy only HALF the dollar amount; the unspent half stays cash for the week.",
+    "gap_down_skip_pct": -7.0,
+    "gap_down_skip_rule": "Any ticker: if Monday 10:00 price < Friday close by more than its own stop % (core -4%, satellite -7%), skip the order; the money stays cash.",
+    "missing_price_rule": "If price.py errors for a ticker, retry; if still failing, leave that order pending and try again at the next run (only through Tuesday 10:00, then cancel to cash)."
+  },
+  "exit_rules": {
+    "core": {
+      "stop_loss_pct": -4.0,
+      "take_profit_pct": null,
+      "trailing": null,
+      "note": "Hold all week unless stop hit."
+    },
+    "satellite": {
+      "stop_loss_pct": -7.0,
+      "take_profit_pct": 10.0,
+      "take_profit_action": "sell 50% of shares, then move stop on remaining shares to breakeven (entry fill) and activate trailing stop",
+      "trailing_stop_pct_from_high": -5.0,
+      "trailing_note": "Trailing stop only active after take-profit triggered. high_water = highest price seen at any run since entry."
+    },
+    "check_timing": "Stops/take-profits are checked only at run times (~10:00 and ~16:20 ET) using the live price then; there is no intraday monitoring, so a fill can be worse than the stop level (gap risk). Record the actual fill.",
+    "per_position_levels_note": "Absolute stop_price/take_profit_price are computed from each entry fill and stored on the position object at entry."
+  },
+  "risk_rules": {
+    "max_position_pct_at_entry": {
+      "core_etf": 40,
+      "single_stock": 12.5
+    },
+    "no_averaging_down": true,
+    "no_adding_to_any_position_after_entry": true,
+    "freed_cash_rule": "Cash freed by a stop-loss or take-profit stays in CASH for the rest of the week. No re-entry, no new tickers, no revenge trades.",
+    "max_portfolio_drawdown_pct": -8.0,
+    "max_drawdown_rule": "If total equity falls below $920 at any run, sell all satellites and hold core + cash until Friday.",
+    "end_of_week": "At the Friday 2026-10-30 ~16:20 ET run, simulate liquidating ALL positions at the closing price with 0.1% slippage and report final cash vs $1000 and vs SPY benchmark."
+  },
+  "earnings_flags": {
+    "picks_reporting_oct26_30": [
+      "MSFT (Oct 28 AMC)",
+      "GOOGL (Oct 28 AMC)"
+    ],
+    "picks_reporting_after_window": {
+      "PLTR": "2026-11-02 after close",
+      "CRWD": "~2026-12-01 (tentative)",
+      "COST": "December (fiscal Q1)"
+    },
+    "avoided_because_reporting_in_window": {
+      "MSFT": "Oct 28 AMC",
+      "GOOGL": "Oct 28 AMC",
+      "NOW": "Oct 28 AMC",
+      "AMZN": "Oct 29 AMC",
+      "LLY": "Oct 29 BMO",
+      "XOM": "Oct 30 BMO"
+    },
+    "indirect_exposure": "QQQM holds MSFT, GOOGL, AMZN (report Oct 28-29); core tilted toward VOO partly for this reason.",
+    "macro_events": {
+      "FOMC": "Oct 28 14:00 ET decision (hold at 3.75-4.00% expected)",
+      "PCE_and_Q3_GDP": "Oct 29 08:30 ET"
+    }
+  },
+  "benchmark": {
+    "ticker": "SPY",
+    "rule": "Hypothetical $1000 buy-and-hold of SPY filled at the Monday 10:00 ET run price (same 0.1% slippage).",
+    "friday_ref_close": 759.97,
+    "entry_price": 765.4146,
+    "entry_time_et": "2026-10-26 10:15 ET",
+    "shares": 1.306481,
+    "latest_price": 755.78,
+    "latest_value": 986.42,
+    "final_value_after_slippage": 986.42,
+    "final_value_mark": 987.41
+  },
+  "reference_prices_friday_close_2026_10_23": {
+    "SPY": 759.97,
+    "VOO": 698.58,
+    "QQQM": 290.06,
+    "CRWD": 257.57,
+    "PLTR": 196.75,
+    "COST": 1003.32
+  },
+  "position_schema": {
+    "ticker": "str",
+    "role": "core|satellite",
+    "shares": "float",
+    "entry_price": "fill incl. slippage",
+    "entry_time_et": "str",
+    "cost_usd": "float",
+    "stop_price": "float",
+    "take_profit_price": "float|null",
+    "tp_hit": "bool",
+    "trailing_active": "bool",
+    "high_water": "float",
+    "last_price": "float",
+    "market_value": "float",
+    "unrealized_pnl_usd": "float",
+    "unrealized_pnl_pct": "float",
+    "status": "open|closed"
+  },
+  "trade_schema": {
+    "time_et": "str",
+    "ticker": "str",
+    "side": "BUY|SELL",
+    "shares": "float",
+    "live_price": "float",
+    "fill_price": "float",
+    "usd": "float",
+    "reason": "entry|stop|take_profit|trailing_stop|breakeven_stop|max_drawdown|eow_liquidation",
+    "realized_pnl_usd": "float|null"
+  },
+  "positions": [
+    {
+      "ticker": "VOO",
+      "role": "core",
+      "shares": 0.299664,
+      "entry_price": 703.5679,
+      "entry_time_et": "2026-10-26 10:15 ET",
+      "cost_usd": 210.83,
+      "stop_price": 675.4252,
+      "take_profit_price": null,
+      "tp_hit": false,
+      "trailing_active": false,
+      "high_water": 710.0,
+      "last_price": 694.72,
+      "market_value": 0.0,
+      "unrealized_pnl_usd": 0.0,
+      "unrealized_pnl_pct": -1.26,
+      "status": "closed",
+      "exit_price": 694.0253,
+      "exit_time_et": "2026-10-30 16:00 ET (close)",
+      "exit_reason": "end_of_week_liquidation",
+      "realized_pnl_usd": -2.86
+    },
+    {
+      "ticker": "QQQM",
+      "role": "core",
+      "shares": 0.890055,
+      "entry_price": 292.1168,
+      "entry_time_et": "2026-10-26 10:15 ET",
+      "cost_usd": 260.0,
+      "stop_price": 280.4321,
+      "take_profit_price": null,
+      "tp_hit": false,
+      "trailing_active": false,
+      "high_water": 298.71,
+      "last_price": 284.34,
+      "market_value": 0.0,
+      "unrealized_pnl_usd": 0.0,
+      "unrealized_pnl_pct": -2.66,
+      "status": "closed",
+      "exit_price": 284.0557,
+      "exit_time_et": "2026-10-30 16:00 ET (close)",
+      "exit_reason": "end_of_week_liquidation",
+      "realized_pnl_usd": -7.17
+    },
+    {
+      "ticker": "CRWD",
+      "role": "satellite",
+      "shares": 0.464675,
+      "entry_price": 258.245,
+      "entry_time_et": "2026-10-26 10:15 ET",
+      "cost_usd": 120.0,
+      "stop_price": 240.1679,
+      "take_profit_price": 284.0695,
+      "tp_hit": false,
+      "trailing_active": false,
+      "high_water": 268.065,
+      "last_price": 257.75,
+      "market_value": 0.0,
+      "unrealized_pnl_usd": 2.36,
+      "unrealized_pnl_pct": 1.97,
+      "status": "closed",
+      "exit_price": 257.4923,
+      "exit_time_et": "2026-10-29 11:12 ET",
+      "realized_pnl_usd": -0.35
+    },
+    {
+      "ticker": "PLTR",
+      "role": "satellite",
+      "shares": 0.534606,
+      "entry_price": 196.4062,
+      "entry_time_et": "2026-10-26 10:15 ET",
+      "cost_usd": 105.0,
+      "stop_price": 182.6578,
+      "take_profit_price": 216.0468,
+      "tp_hit": false,
+      "trailing_active": false,
+      "high_water": 198.84,
+      "last_price": 187.37,
+      "market_value": 0.0,
+      "unrealized_pnl_usd": 0.0,
+      "unrealized_pnl_pct": -4.6,
+      "status": "closed",
+      "exit_price": 187.1826,
+      "exit_time_et": "2026-10-30 10:21 ET",
+      "exit_reason": "intraday_giveback",
+      "realized_pnl_usd": -4.93
+    },
+    {
+      "ticker": "COST",
+      "role": "satellite",
+      "shares": 0.103404,
+      "entry_price": 1015.4394,
+      "entry_time_et": "2026-10-26 10:15 ET",
+      "cost_usd": 105.0,
+      "stop_price": 944.3586,
+      "take_profit_price": 1116.9833,
+      "tp_hit": false,
+      "trailing_active": false,
+      "high_water": 1019.95,
+      "last_price": 1012.28,
+      "market_value": 0.0,
+      "unrealized_pnl_usd": 0.0,
+      "unrealized_pnl_pct": -0.31,
+      "status": "closed",
+      "exit_price": 1011.2677,
+      "exit_time_et": "2026-10-30 16:00 ET (close)",
+      "exit_reason": "end_of_week_liquidation",
+      "realized_pnl_usd": -0.43
+    },
+    {
+      "ticker": "MSFT",
+      "role": "satellite",
+      "shares": 0.188901,
+      "entry_price": 529.3788,
+      "entry_time_et": "2026-10-28 10:11 ET",
+      "cost_usd": 100.0,
+      "stop_price": 492.3223,
+      "take_profit_price": 582.3167,
+      "tp_hit": false,
+      "trailing_active": false,
+      "high_water": 531.01,
+      "last_price": 524.285,
+      "market_value": 0.0,
+      "unrealized_pnl_usd": -0.64,
+      "unrealized_pnl_pct": -0.64,
+      "status": "closed",
+      "exit_price": 523.7607,
+      "exit_time_et": "2026-10-29 11:12 ET",
+      "realized_pnl_usd": -1.06
+    },
+    {
+      "ticker": "GOOGL",
+      "role": "satellite",
+      "shares": 0.307963,
+      "entry_price": 324.7144,
+      "entry_time_et": "2026-10-28 10:11 ET",
+      "cost_usd": 100.0,
+      "stop_price": 301.9844,
+      "take_profit_price": 357.1858,
+      "tp_hit": false,
+      "trailing_active": false,
+      "high_water": 324.89,
+      "last_price": 285.56,
+      "market_value": 0.0,
+      "unrealized_pnl_usd": 0.0,
+      "unrealized_pnl_pct": -12.06,
+      "status": "closed",
+      "exit_price": 285.2744,
+      "exit_time_et": "2026-10-29 10:18 ET",
+      "exit_reason": "stop (earnings gap)",
+      "realized_pnl_usd": -12.15
+    }
+  ],
+  "trades": [
+    {
+      "time_et": "2026-10-26 10:15 ET",
+      "ticker": "VOO",
+      "side": "BUY",
+      "shares": 0.511678,
+      "live_price": 702.865,
+      "fill_price": 703.5679,
+      "usd": 360.0,
+      "reason": "entry",
+      "realized_pnl_usd": null
+    },
+    {
+      "time_et": "2026-10-26 10:15 ET",
+      "ticker": "QQQM",
+      "side": "BUY",
+      "shares": 0.890055,
+      "live_price": 291.825,
+      "fill_price": 292.1168,
+      "usd": 260.0,
+      "reason": "entry",
+      "realized_pnl_usd": null
+    },
+    {
+      "time_et": "2026-10-26 10:15 ET",
+      "ticker": "CRWD",
+      "side": "BUY",
+      "shares": 0.464675,
+      "live_price": 257.987,
+      "fill_price": 258.245,
+      "usd": 120.0,
+      "reason": "entry",
+      "realized_pnl_usd": null
+    },
+    {
+      "time_et": "2026-10-26 10:15 ET",
+      "ticker": "PLTR",
+      "side": "BUY",
+      "shares": 0.534606,
+      "live_price": 196.21,
+      "fill_price": 196.4062,
+      "usd": 105.0,
+      "reason": "entry",
+      "realized_pnl_usd": null
+    },
+    {
+      "time_et": "2026-10-26 10:15 ET",
+      "ticker": "COST",
+      "side": "BUY",
+      "shares": 0.103404,
+      "live_price": 1014.425,
+      "fill_price": 1015.4394,
+      "usd": 105.0,
+      "reason": "entry",
+      "realized_pnl_usd": null
+    },
+    {
+      "time_et": "2026-10-28 10:11 ET",
+      "ticker": "VOO",
+      "side": "SELL",
+      "shares": 0.212014,
+      "live_price": 708.21,
+      "fill_price": 707.5018,
+      "usd": 150.0,
+      "reason": "rule_change_trim",
+      "realized_pnl_usd": 0.83
+    },
+    {
+      "time_et": "2026-10-28 10:11 ET",
+      "ticker": "MSFT",
+      "side": "BUY",
+      "shares": 0.188901,
+      "live_price": 528.85,
+      "fill_price": 529.3788,
+      "usd": 100.0,
+      "reason": "entry",
+      "realized_pnl_usd": null
+    },
+    {
+      "time_et": "2026-10-28 10:11 ET",
+      "ticker": "GOOGL",
+      "side": "BUY",
+      "shares": 0.307963,
+      "live_price": 324.39,
+      "fill_price": 324.7144,
+      "usd": 100.0,
+      "reason": "entry",
+      "realized_pnl_usd": null
+    },
+    {
+      "time_et": "2026-10-29 10:18 ET",
+      "ticker": "GOOGL",
+      "side": "SELL",
+      "shares": 0.307963,
+      "live_price": 285.56,
+      "fill_price": 285.2744,
+      "usd": 87.85,
+      "reason": "stop",
+      "realized_pnl_usd": -12.15,
+      "note": "Earnings gap through the -7% stop (301.9844); filled at the real price at the 10:18 ET run"
+    },
+    {
+      "time_et": "2026-10-29 11:12 ET",
+      "ticker": "CRWD",
+      "side": "SELL",
+      "shares": 0.464675,
+      "live_price": 257.75,
+      "fill_price": 257.4923,
+      "usd": 119.65,
+      "reason": "intraday_giveback",
+      "realized_pnl_usd": -0.35,
+      "note": "-4.04% below day high 268.6 and below entry 258.245 (rule_change_2026_10_28_intraday)"
+    },
+    {
+      "time_et": "2026-10-29 11:12 ET",
+      "ticker": "MSFT",
+      "side": "SELL",
+      "shares": 0.188901,
+      "live_price": 524.285,
+      "fill_price": 523.7607,
+      "usd": 98.94,
+      "reason": "intraday_giveback",
+      "realized_pnl_usd": -1.06,
+      "note": "-3.08% below day high 540.97 and below entry 529.3788 (rule_change_2026_10_28_intraday)"
+    },
+    {
+      "time_et": "2026-10-30 10:21 ET",
+      "ticker": "PLTR",
+      "side": "SELL",
+      "shares": 0.534606,
+      "live_price": 187.37,
+      "fill_price": 187.1826,
+      "usd": 100.07,
+      "reason": "intraday_giveback",
+      "realized_pnl_usd": -4.93,
+      "note": "-3.38% below day high 193.92 and below entry 196.4062 (rule_change_2026_10_28_intraday)"
+    },
+    {
+      "time_et": "2026-10-30 16:00 ET (close)",
+      "ticker": "VOO",
+      "side": "SELL",
+      "shares": 0.299664,
+      "live_price": 694.72,
+      "fill_price": 694.0253,
+      "usd": 207.97,
+      "reason": "end_of_week",
+      "realized_pnl_usd": -2.86,
+      "note": "Friday close liquidation per risk_rules.end_of_week (official close, 0.1% slippage)"
+    },
+    {
+      "time_et": "2026-10-30 16:00 ET (close)",
+      "ticker": "QQQM",
+      "side": "SELL",
+      "shares": 0.890055,
+      "live_price": 284.34,
+      "fill_price": 284.0557,
+      "usd": 252.83,
+      "reason": "end_of_week",
+      "realized_pnl_usd": -7.17,
+      "note": "Friday close liquidation per risk_rules.end_of_week (official close, 0.1% slippage)"
+    },
+    {
+      "time_et": "2026-10-30 16:00 ET (close)",
+      "ticker": "COST",
+      "side": "SELL",
+      "shares": 0.103404,
+      "live_price": 1012.28,
+      "fill_price": 1011.2677,
+      "usd": 104.57,
+      "reason": "end_of_week",
+      "realized_pnl_usd": -0.43,
+      "note": "Friday close liquidation per risk_rules.end_of_week (official close, 0.1% slippage)"
+    }
+  ],
+  "equity_history": [
+    {
+      "time_et": "2026-10-26 10:15 ET",
+      "run": "morning",
+      "equity": 999.06,
+      "cash": 50.0,
+      "positions_value": 949.06,
+      "spy_benchmark_value": 999.0
+    },
+    {
+      "time_et": "2026-10-26 16:00 ET",
+      "run": "after_close",
+      "equity": 1002.84,
+      "cash": 50.0,
+      "positions_value": 952.84,
+      "spy_benchmark_value": 999.94
+    },
+    {
+      "time_et": "2026-10-27 10:13 ET",
+      "run": "morning",
+      "equity": 1003.53,
+      "cash": 50.0,
+      "positions_value": 953.53,
+      "spy_benchmark_value": 1000.73
+    },
+    {
+      "time_et": "2026-10-27 16:00 ET",
+      "run": "after_close",
+      "equity": 1009.7,
+      "cash": 50.0,
+      "positions_value": 959.7,
+      "spy_benchmark_value": 1005.55
+    },
+    {
+      "time_et": "2026-10-28 10:11 ET",
+      "run": "morning",
+      "equity": 1006.63,
+      "cash": 0.0,
+      "positions_value": 1006.63,
+      "spy_benchmark_value": 1006.5
+    },
+    {
+      "time_et": "2026-10-28 13:19 ET",
+      "run": "hourly",
+      "equity": 1004.95,
+      "cash": 0.0,
+      "positions_value": 1004.95,
+      "spy_benchmark_value": 1007.39
+    },
+    {
+      "time_et": "2026-10-28 14:18 ET",
+      "run": "hourly",
+      "equity": 1004.17,
+      "cash": 0.0,
+      "positions_value": 1004.17,
+      "spy_benchmark_value": 1006.46
+    },
+    {
+      "time_et": "2026-10-28 15:12 ET",
+      "run": "hourly",
+      "equity": 1004.66,
+      "cash": 0.0,
+      "positions_value": 1004.66,
+      "spy_benchmark_value": 1005.77
+    },
+    {
+      "time_et": "2026-10-28 16:17 ET",
+      "run": "after_close",
+      "equity": 1009.74,
+      "cash": 0.0,
+      "positions_value": 1009.74,
+      "spy_benchmark_value": 1009.01
+    },
+    {
+      "time_et": "2026-10-29 10:18 ET",
+      "run": "morning",
+      "equity": 990.74,
+      "cash": 87.85,
+      "positions_value": 902.89,
+      "spy_benchmark_value": 1005.23
+    },
+    {
+      "time_et": "2026-10-29 11:12 ET",
+      "run": "hourly",
+      "equity": 986.59,
+      "cash": 306.44,
+      "positions_value": 680.15,
+      "spy_benchmark_value": 1005.53
+    },
+    {
+      "time_et": "2026-10-29 12:12 ET",
+      "run": "hourly",
+      "equity": 987.03,
+      "cash": 306.44,
+      "positions_value": 680.59,
+      "spy_benchmark_value": 1004.81
+    },
+    {
+      "time_et": "2026-10-29 13:15 ET",
+      "run": "hourly",
+      "equity": 985.57,
+      "cash": 306.44,
+      "positions_value": 679.13,
+      "spy_benchmark_value": 1003.72
+    },
+    {
+      "time_et": "2026-10-29 14:13 ET",
+      "run": "hourly",
+      "equity": 985.34,
+      "cash": 306.44,
+      "positions_value": 678.9,
+      "spy_benchmark_value": 1002.57
+    },
+    {
+      "time_et": "2026-10-29 15:13 ET",
+      "run": "hourly",
+      "equity": 985.37,
+      "cash": 306.44,
+      "positions_value": 678.93,
+      "spy_benchmark_value": 1002.72
+    },
+    {
+      "time_et": "2026-10-29 16:15 ET",
+      "run": "after_close",
+      "equity": 988.56,
+      "cash": 306.44,
+      "positions_value": 682.12,
+      "spy_benchmark_value": 1005.15
+    },
+    {
+      "time_et": "2026-10-30 10:21 ET",
+      "run": "morning",
+      "equity": 974.33,
+      "cash": 406.51,
+      "positions_value": 567.82,
+      "spy_benchmark_value": 990.74
+    },
+    {
+      "time_et": "2026-10-30 11:16 ET",
+      "run": "hourly_11",
+      "equity": 974.94,
+      "cash": 406.51,
+      "positions_value": 568.43,
+      "spy_benchmark_value": 991.28
+    },
+    {
+      "time_et": "2026-10-30 12:11 ET",
+      "run": "hourly_12",
+      "equity": 973.81,
+      "cash": 406.51,
+      "positions_value": 567.3,
+      "spy_benchmark_value": 988.98
+    },
+    {
+      "time_et": "2026-10-30 13:12 ET",
+      "run": "hourly_13",
+      "equity": 972.68,
+      "cash": 406.51,
+      "positions_value": 566.17,
+      "spy_benchmark_value": 987.24
+    },
+    {
+      "time_et": "2026-10-30 14:15 ET",
+      "run": "hourly_14",
+      "equity": 971.01,
+      "cash": 406.51,
+      "positions_value": 564.5,
+      "spy_benchmark_value": 984.81
+    },
+    {
+      "time_et": "2026-10-30 15:12 ET",
+      "run": "hourly_15",
+      "equity": 971.0,
+      "cash": 406.51,
+      "positions_value": 564.49,
+      "spy_benchmark_value": 982.9
+    },
+    {
+      "time_et": "2026-10-30 16:20 ET",
+      "run": "final_close",
+      "equity": 971.88,
+      "cash": 971.88,
+      "positions_value": 0.0,
+      "spy_benchmark_value": 986.42
+    }
+  ],
+  "realized_pnl_usd": -28.12,
+  "last_updated_et": "2026-10-30 16:25 ET",
+  "rule_change_2026_10_27": {
+    "requested_by": "Dmitry, in chat on 2026-10-27 at 23:23 Israel time (picked 'very bold: enter MSFT and GOOGL before earnings')",
+    "changes": [
+      "The earnings exclusion is lifted for MSFT and GOOGL only. AMZN, NOW, LLY and XOM stay excluded.",
+      "On the 10/28 morning run: sell $150 of VOO, then buy $100 MSFT and $100 GOOGL with that plus the $50 cash, all at live prices with 0.1% slippage. Cash then goes to about $0. The 5%-gap entry filter applies to MSFT and GOOGL vs their 10/27 close.",
+      "MSFT and GOOGL are satellites with the normal satellite rules (stop -7%, at +10% sell half and move the stop to entry, then trail 5% below the high). Max 12.5% per stock still applies.",
+      "They are held through the earnings reports after the 10/28 close. Stops are only checked at the scheduled runs, so an earnings gap can fill well beyond -7%; the fill is the real price at that run, not the stop price.",
+      "The one-time trim of VOO is not 'adding to a position' and does not break the no-averaging-down rule. Everything else is unchanged and everything closes Friday 10/30."
+    ]
+  },
+  "rule_change_2026_10_28_intraday": {
+    "requested_by": "Dmitry, in chat on 2026-10-28 at 19:08 Israel time (picked 'intraday trading with an hourly check')",
+    "schedule": "Hourly checks at 11:00, 12:00, 13:00, 14:00 and 15:00 ET, plus the existing 10:00 morning run and 16:20 after-close run. First hourly check: Wed 10/28 at 14:00 ET.",
+    "rules": [
+      "Every check applies all existing stop-loss, take-profit and trailing rules, plus the $920 circuit breaker, at live prices with 0.1% slippage.",
+      "Intraday give-back exit for satellites: if a satellite trades 3% or more below today's intraday high (Yahoo regularMarketDayHigh) and below its own entry price, sell all of it. MSFT and GOOGL are exempt on Wed 10/28 so they are held through earnings as Dmitry asked. From Thu 10/29 they follow the rule like any satellite.",
+      "Rotation: cash freed by any sale can go into one new position, the strongest name of the day (highest % change vs the previous close) from the watchlist NVDA, AMD, AVGO, TSLA, NFLX, CRWD, PLTR, but only if it is up between +1.5% and +6% on the day, is not reporting earnings Oct 28-30 (verify), and was not sold earlier the same day.",
+      "Sizing: a new position is at most 12.5% of portfolio value. Leftover cash stays as cash.",
+      "Limits: at most 2 new entries per trading day, no new entries on Friday 10/30 after the 13:00 ET check, and core ETFs (VOO, QQQM) are only sold on their stops.",
+      "New positions are satellites under the normal satellite rules (stop -7%, sell half at +10%, trail 5%).",
+      "Everything still closes at Friday 10/30's close."
+    ],
+    "notifications": "An hourly check messages Dmitry only when it buys or sells something. Otherwise it only updates the log and dashboard. The morning and after-close updates continue as before."
+  },
+  "final_result": {
+    "final_cash": 971.88,
+    "change_usd": -28.12,
+    "change_pct": -2.81,
+    "spy_value": 986.42,
+    "spy_change_pct": -1.36,
+    "close_price_source": "Nasdaq official 4:00 PM ET close (Yahoo lagged for SPY/COST/QQQM); VOO matches Yahoo 16:00 bar",
+    "closed_at_et": "2026-10-30 16:2x ET"
+  }
+}
