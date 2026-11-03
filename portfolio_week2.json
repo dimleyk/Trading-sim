@@ -225,7 +225,7 @@
     "timing": "after close (AMC), call 17:00 ET"
    },
    "status": "open",
-   "hwm_bid": 1.88,
+   "hwm_bid": 1.96,
    "underlying_at_entry": 487.69
   }
  ],
@@ -465,6 +465,17 @@
    "benchmark_value": 992.32,
    "spy": 754.044,
    "after_actions": true
+  },
+  {
+   "time_et": "2026-11-03 16:27 ET",
+   "time_il": "2026-11-03 23:27",
+   "cash": 483.05,
+   "positions_value_bid": 195.35,
+   "total_value": 678.4,
+   "total_value_mid": 687.05,
+   "benchmark_value": 994.24,
+   "spy": 755.5,
+   "after_actions": false
   }
  ],
  "benchmark": {
@@ -494,5 +505,5 @@
    "pick": "85C 0.86/1.22"
   }
  },
- "last_updated_et": "2026-11-03 15:40 ET"
+ "last_updated_et": "2026-11-03 16:27 ET"
 }
