@@ -12,8 +12,8 @@
  "created_at": "2026-10-31 (Europe/Budapest)",
  "user_request": "Dmitry (2026-10-31): another week, this time 'no way you don't double the portfolio, do what it takes'; chose 'all-or-nothing: simulated options before earnings'. Doubling is NOT guaranteed.",
  "starting_cash": 1000.0,
- "cash": 483.05,
- "realized_pnl_usd": -319.3,
+ "cash": 517.4,
+ "realized_pnl_usd": -482.6,
  "goal": {
   "multiple": 2.0,
   "target_value": 2000.0,
@@ -224,9 +224,14 @@
     "date": "2026-11-03",
     "timing": "after close (AMC), call 17:00 ET"
    },
-   "status": "open",
+   "status": "closed",
    "hwm_bid": 1.96,
-   "underlying_at_entry": 487.69
+   "underlying_at_entry": 487.69,
+   "exit_time_et": "2026-11-04 09:48 ET",
+   "exit_price": 0.35,
+   "proceeds": 34.35,
+   "realized_pnl": -163.3,
+   "exit_reason": "scheduled exit after earnings (2026-11-04 09:45)"
   }
  ],
  "trades": [
@@ -288,6 +293,27 @@
    "quote_bid": 1.88,
    "quote_ask": 1.97,
    "reason": "entry before earnings (AMD puts)"
+  },
+  {
+   "id": "T4",
+   "time_et": "2026-11-04 09:48 ET",
+   "action": "SELL",
+   "play": "P2",
+   "ticker": "AMD",
+   "symbol": "AMD261106P00410000",
+   "side": "P",
+   "strike": 410.0,
+   "expiry": "2026-11-06",
+   "qty": 1,
+   "price": 0.35,
+   "commission": 0.65,
+   "cash_delta": 34.35,
+   "underlying": 511.035,
+   "quote_bid": 0.35,
+   "quote_ask": 0.4,
+   "reason": "scheduled exit after earnings (2026-11-04 09:45)",
+   "realized_pnl_usd": -163.3,
+   "pnl_pct": -82.6
   }
  ],
  "equity_history": [
@@ -476,6 +502,17 @@
    "benchmark_value": 994.24,
    "spy": 755.5,
    "after_actions": false
+  },
+  {
+   "time_et": "2026-11-04 09:48 ET",
+   "time_il": "2026-11-04 16:48",
+   "cash": 517.4,
+   "positions_value_bid": 0.0,
+   "total_value": 517.4,
+   "total_value_mid": 517.4,
+   "benchmark_value": 1009.78,
+   "spy": 767.315,
+   "after_actions": true
   }
  ],
  "benchmark": {
@@ -505,5 +542,5 @@
    "pick": "85C 0.86/1.22"
   }
  },
- "last_updated_et": "2026-11-03 16:27 ET"
+ "last_updated_et": "2026-11-04 09:48 ET"
 }
