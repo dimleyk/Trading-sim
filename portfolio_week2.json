@@ -12,7 +12,7 @@
  "created_at": "2026-10-31 (Europe/Budapest)",
  "user_request": "Dmitry (2026-10-31): another week, this time 'no way you don't double the portfolio, do what it takes'; chose 'all-or-nothing: simulated options before earnings'. Doubling is NOT guaranteed.",
  "starting_cash": 1000.0,
- "cash": 399.75,
+ "cash": 298.45,
  "realized_pnl_usd": -482.6,
  "goal": {
   "multiple": 2.0,
@@ -178,7 +178,8 @@
    },
    "thesis_short": "AFRM calls",
    "thesis": "Long OTM call. Momentum into the print (+4.8% in 5 days) and a historically big earnings mover. Wide spreads: cost is counted by buying at ask / selling at bid.",
-   "status": "pending"
+   "status": "entered",
+   "position_id": "POS4"
   }
  ],
  "positions": [
@@ -254,6 +255,27 @@
    "status": "open",
    "hwm_bid": 1.19,
    "underlying_at_entry": 192.1913
+  },
+  {
+   "id": "POS4",
+   "play": "P4",
+   "ticker": "AFRM",
+   "symbol": "AFRM261106C00081000",
+   "side": "C",
+   "strike": 81.0,
+   "expiry": "2026-11-06",
+   "qty": 2,
+   "entry_price": 0.5,
+   "entry_time_et": "2026-11-05 15:33 ET",
+   "cost": 101.3,
+   "exit_at": "2026-11-06 09:45",
+   "report": {
+    "date": "2026-11-05",
+    "timing": "after close (AMC), call 14:00 PT"
+   },
+   "status": "open",
+   "hwm_bid": 0.4,
+   "underlying_at_entry": 70.01
   }
  ],
  "trades": [
@@ -355,6 +377,25 @@
    "quote_bid": 1.1,
    "quote_ask": 1.17,
    "reason": "entry before earnings (ARM calls)"
+  },
+  {
+   "id": "T6",
+   "time_et": "2026-11-05 15:33 ET",
+   "action": "BUY",
+   "play": "P4",
+   "ticker": "AFRM",
+   "symbol": "AFRM261106C00081000",
+   "side": "C",
+   "strike": 81.0,
+   "expiry": "2026-11-06",
+   "qty": 2,
+   "price": 0.5,
+   "commission": 1.3,
+   "cash_delta": -101.3,
+   "underlying": 70.01,
+   "quote_bid": 0.4,
+   "quote_ask": 0.5,
+   "reason": "entry before earnings (AFRM calls)"
   }
  ],
  "equity_history": [
@@ -697,6 +738,17 @@
    "benchmark_value": 969.36,
    "spy": 736.6,
    "after_actions": false
+  },
+  {
+   "time_et": "2026-11-05 15:33 ET",
+   "time_il": "2026-11-05 22:33",
+   "cash": 298.45,
+   "positions_value_bid": 78.7,
+   "total_value": 377.15,
+   "total_value_mid": 389.45,
+   "benchmark_value": 968.71,
+   "spy": 736.1,
+   "after_actions": true
   }
  ],
  "benchmark": {
@@ -726,5 +778,5 @@
    "pick": "85C 0.86/1.22"
   }
  },
- "last_updated_et": "2026-11-05 14:38 ET"
+ "last_updated_et": "2026-11-05 15:33 ET"
 }
