@@ -1,6 +1,6 @@
 {
  "sim_name": "Week 2: all-or-nothing, simulated options before earnings (PAPER TRADING, no real money)",
- "status": "READY",
+ "status": "FINISHED",
  "simulation_only": true,
  "period": {
   "start": "2026-11-02",
@@ -13,7 +13,7 @@
  "user_request": "Dmitry (2026-10-31): another week, this time 'no way you don't double the portfolio, do what it takes'; chose 'all-or-nothing: simulated options before earnings'. Doubling is NOT guaranteed.",
  "starting_cash": 1000.0,
  "cash": 298.45,
- "realized_pnl_usd": -482.6,
+ "realized_pnl_usd": -701.55,
  "goal": {
   "multiple": 2.0,
   "target_value": 2000.0,
@@ -252,9 +252,14 @@
     "date": "2026-11-04",
     "timing": "after close (AMC), webcast 14:00 PT"
    },
-   "status": "open",
+   "status": "closed",
    "hwm_bid": 1.19,
-   "underlying_at_entry": 192.1913
+   "underlying_at_entry": 192.1913,
+   "exit_time_et": "2026-11-06 16:28 ET",
+   "exit_price": 0.0,
+   "proceeds": 0.0,
+   "realized_pnl": -117.65,
+   "exit_reason": "expiry settlement at intrinsic (underlying 174.62)"
   },
   {
    "id": "POS4",
@@ -273,9 +278,14 @@
     "date": "2026-11-05",
     "timing": "after close (AMC), call 14:00 PT"
    },
-   "status": "open",
+   "status": "closed",
    "hwm_bid": 0.4,
-   "underlying_at_entry": 70.01
+   "underlying_at_entry": 70.01,
+   "exit_time_et": "2026-11-06 16:28 ET",
+   "exit_price": 0.0,
+   "proceeds": 0.0,
+   "realized_pnl": -101.3,
+   "exit_reason": "expiry settlement at intrinsic (underlying 68.11)"
   }
  ],
  "trades": [
@@ -396,6 +406,48 @@
    "quote_bid": 0.4,
    "quote_ask": 0.5,
    "reason": "entry before earnings (AFRM calls)"
+  },
+  {
+   "id": "T7",
+   "time_et": "2026-11-06 16:28 ET",
+   "action": "SETTLE",
+   "play": "P3",
+   "ticker": "ARM",
+   "symbol": "ARM261106C00225000",
+   "side": "C",
+   "strike": 225.0,
+   "expiry": "2026-11-06",
+   "qty": 1,
+   "price": 0.0,
+   "commission": 0.0,
+   "cash_delta": 0.0,
+   "underlying": 174.62,
+   "quote_bid": 0.0,
+   "quote_ask": 0.01,
+   "reason": "expiry settlement at intrinsic (underlying 174.62)",
+   "realized_pnl_usd": -117.65,
+   "pnl_pct": -100.0
+  },
+  {
+   "id": "T8",
+   "time_et": "2026-11-06 16:28 ET",
+   "action": "SETTLE",
+   "play": "P4",
+   "ticker": "AFRM",
+   "symbol": "AFRM261106C00081000",
+   "side": "C",
+   "strike": 81.0,
+   "expiry": "2026-11-06",
+   "qty": 2,
+   "price": 0.0,
+   "commission": 0.0,
+   "cash_delta": 0.0,
+   "underlying": 68.11,
+   "quote_bid": 0.0,
+   "quote_ask": 0.8,
+   "reason": "expiry settlement at intrinsic (underlying 68.11)",
+   "realized_pnl_usd": -101.3,
+   "pnl_pct": -100.0
   }
  ],
  "equity_history": [
@@ -837,6 +889,28 @@
    "benchmark_value": 970.36,
    "spy": 737.36,
    "after_actions": false
+  },
+  {
+   "time_et": "2026-11-06 16:28 ET",
+   "time_il": "2026-11-06 23:28",
+   "cash": 298.45,
+   "positions_value_bid": 0.0,
+   "total_value": 298.45,
+   "total_value_mid": 298.45,
+   "benchmark_value": 968.02,
+   "spy": 735.58,
+   "after_actions": true
+  },
+  {
+   "time_et": "2026-11-06 16:28 ET",
+   "time_il": "2026-11-06 23:28",
+   "cash": 298.45,
+   "positions_value_bid": 0.0,
+   "total_value": 298.45,
+   "total_value_mid": 298.45,
+   "benchmark_value": 968.02,
+   "spy": 735.58,
+   "final": true
   }
  ],
  "benchmark": {
@@ -866,5 +940,21 @@
    "pick": "85C 0.86/1.22"
   }
  },
- "last_updated_et": "2026-11-06 15:36 ET"
+ "last_updated_et": "2026-11-06 16:28 ET",
+ "final_result": {
+  "final_value": 298.45,
+  "change_usd": -701.55,
+  "change_pct": -70.16,
+  "goal_value": 2000.0,
+  "goal_reached": false,
+  "multiple_of_start": 0.298,
+  "spy_start": 759.88,
+  "spy_end": 735.58,
+  "spy_source": "nasdaq",
+  "spy_asof": "Nov 6, 2026 4:27 PM ET",
+  "spy_value": 968.02,
+  "spy_change_pct": -3.2,
+  "realized_pnl_usd": -701.55,
+  "closed_at_et": "2026-11-06 16:28 ET"
+ }
 }
